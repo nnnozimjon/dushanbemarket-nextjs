@@ -59,6 +59,8 @@ useEffect(() => {
             placeholder="Поиск..."
             rightSection={<Icon name="search" variant="outline" />}
             onChange={(e) => setSearch(e)}
+
+            // @ts-ignore
             data={searchData}
             visibleFrom="xs" 
           />
@@ -114,6 +116,7 @@ useEffect(() => {
           placeholder="Search"
           rightSection={<Icon name="search" variant="outline" />}
           onChange={(e) => setSearch(e)}
+          // @ts-ignore
           data={searchData}
           hiddenFrom="md"
         />
