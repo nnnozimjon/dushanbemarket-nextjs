@@ -23,9 +23,19 @@ const initialState: CartState = {
     totalPrice: 0,
 };
 
+// const loadCartState = (): CartState => {
+//     const savedCartState = localStorage.getItem('cartState');
+//     return savedCartState ? JSON.parse(savedCartState) : initialState;
+// };
+
 const loadCartState = (): CartState => {
-    const savedCartState = localStorage.getItem('cartState');
-    return savedCartState ? JSON.parse(savedCartState) : initialState;
+    if (typeof window !== 'undefined') {
+        const savedCartState = localStorage.getItem('cartState');
+        return savedCartState ? JSON.parse(savedCartState) : initialState;
+    } else {
+        // If localStorage is not available (e.g., during SSR), return the initialState
+        return initialState;
+    }
 };
 
 
@@ -51,7 +61,10 @@ const cartSlice = createSlice({
             state.totalPrice += action.payload.price;
 
             // Save updated cart state to localStorage
-            localStorage.setItem('cartState', JSON.stringify(state));
+            // localStorage.setItem('cartState', JSON.stringify(state));
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('cartState', JSON.stringify(state));
+            }
         },
         removeFromCart: (state, action: PayloadAction<number>) => {
             const { products } = state;
@@ -75,7 +88,10 @@ const cartSlice = createSlice({
             }
 
             // Save updated cart state to localStorage
-            localStorage.setItem('cartState', JSON.stringify(state))
+            // localStorage.setItem('cartState', JSON.stringify(state))
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('cartState', JSON.stringify(state));
+            }
         },
         removeProductById: (state, action: PayloadAction<number>) => {
             const { products } = state;
@@ -93,7 +109,10 @@ const cartSlice = createSlice({
                 products.splice(productIndex, 1);
 
                 // Save updated cart state to localStorage
-                localStorage.setItem('cartState', JSON.stringify(state));
+                // localStorage.setItem('cartState', JSON.stringify(state));
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('cartState', JSON.stringify(state));
+                }
             }
         },
     },

@@ -1,5 +1,5 @@
 "use client";
-// import { Inter } from "next/font/google";
+
 import "@mantine/core/styles.css";
 import "./globals.css";
 import { store } from "@/store";
@@ -8,8 +8,6 @@ import { AppFooter, AppHeader } from "@/components";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
-
-// const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,

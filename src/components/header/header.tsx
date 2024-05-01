@@ -3,13 +3,13 @@
 import { Container, Autocomplete, Flex, Text, Indicator } from "@mantine/core";
 import classes from "./styles.module.css";
 import { AppLogo, Icon } from "..";
-import Link  from "next/link";
+import Link from "next/link";
 import { useSelector } from "react-redux";
 import { ObjectToParams } from "@/utils/objectToParams";
 import { useGetAllFrontProductsByPaginationQuery } from "@/store";
 import { useEffect, useState } from "react";
 
-export const AppHeader = () => {
+export default function AppHeader() {
   const [searchData, setSearchData] = useState<{ name: string, id: string }[]>([])
   const [search, setSearch] = useState<string>('')
 
@@ -24,26 +24,26 @@ export const AppHeader = () => {
     isLoading: isLoadingProducts,
     error: errorProducts,
     refetch: refetchProducts,
-} = useGetAllFrontProductsByPaginationQuery(
+  } = useGetAllFrontProductsByPaginationQuery(
     ObjectToParams({ pageSize: 10, pageNumber: 1, order: 'rand', name: search })
-);
+  );
 
-useEffect(() => {
-  if(isErrorProducts) {
+  useEffect(() => {
+    if (isErrorProducts) {
 
-  }
+    }
 
-  if(isSuccessProducts) {
-    const mappedData = dataProducts?.payload?.map((product: any) => {
-      return {
-        value: String(product?.id),
-        label: product?.name
-      }
-    })
+    if (isSuccessProducts) {
+      const mappedData = dataProducts?.payload?.map((product: any) => {
+        return {
+          value: String(product?.id),
+          label: product?.name
+        }
+      })
 
-    setSearchData(mappedData)
-  }
-}, [isSuccessProducts, isErrorProducts])
+      setSearchData(mappedData)
+    }
+  }, [isSuccessProducts, isErrorProducts])
 
   return (
     <header className={`${classes.header} shadow-md fixed z-50 w-full`}>
@@ -62,7 +62,7 @@ useEffect(() => {
 
             // @ts-ignore
             data={searchData}
-            visibleFrom="xs" 
+            visibleFrom="xs"
           />
           <Flex gap={"md"}>
             <Link href={"/wishlist"} className="no-underline text-[#01B763]">

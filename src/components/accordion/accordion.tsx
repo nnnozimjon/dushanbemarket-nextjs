@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const Accordion = ({ children, title, }: Props) => {
+export default function Accordion({ children, title, }: Props) {
   return (
     <div>
       <Text className="font-semibold py-2">{title}</Text>

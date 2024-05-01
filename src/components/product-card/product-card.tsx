@@ -15,7 +15,7 @@ interface Props {
     created_by: number
 }
 
-export const ProductCard: React.FC<Props> = ({ img, name, price, id, created_by, storeName }: Props) => {
+export default function ProductCard({ img, name, price, id, created_by, storeName }: Props){
     const dispatch = useDispatch()
     const products: any[] = useSelector((state: any) => state?.wishlist?.products)
 

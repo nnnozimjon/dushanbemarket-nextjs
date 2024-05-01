@@ -1,9 +1,9 @@
 import React from 'react'
-import { MultiRadioSelect } from '../multi-radio-select'
+import MultiRadioSelect  from '../multi-radio-select/multi-radio-select'
 import { Box, Flex, InputBase } from '@mantine/core'
-import { Accordion } from '../accordion'
+import Accordion  from '../accordion/accordion'
 
-export const Filter = () => {
+export default function Filter (){
     const sampleData = [
         {name: 'Iphone 11', value: 'ip11'}, {name: 'Iphone 12', value: '12'},
         {name: 'Iphone 11', value: 'ip11'}, {name: 'Iphone 12', value: '12'},

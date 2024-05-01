@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { Icon, ProductCard } from "@/components";
+
 import { Container, Flex, Text } from "@mantine/core";
 
 export default function ActiveOrdersPage() {
@@ -58,3 +59,5 @@ export default function ActiveOrdersPage() {
     </Container>
   );
 }
+
+

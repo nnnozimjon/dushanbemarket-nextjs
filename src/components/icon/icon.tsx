@@ -121,7 +121,7 @@ interface Props extends SVGProps<SVGSVGElement> {
     slot?: 'start' | 'end' | 'primary' | 'secondary'
 }
 
-export function Icon({ name, variant = 'primary', className, ...props }: Props) {
+export default function Icon({ name, variant = 'primary', className, ...props }: Props) {
     return (
         <svg
             width={cn(24, props.width)}
