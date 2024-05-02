@@ -5,9 +5,9 @@ import "./globals.css";
 import { store } from "@/store";
 import { MantineProvider } from "@mantine/core";
 import { AppFooter, AppHeader } from "@/components";
-import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function RootLayout({
   children,
@@ -17,7 +17,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <BrowserRouter>
           <Provider store={store}>
             <MantineProvider>
               <AppHeader />
@@ -31,7 +30,6 @@ export default function RootLayout({
               />
             </MantineProvider>
           </Provider>
-        </BrowserRouter>
       </body>
     </html>
   );

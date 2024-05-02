@@ -1,8 +1,21 @@
-"use client"
+"use client";
+
 import React, { useEffect, useState } from "react";
-import { Button, Flex, InputBase, LoadingOverlay, Modal, PinInput } from "@mantine/core";
+import {
+  Button,
+  Flex,
+  InputBase,
+  LoadingOverlay,
+  Modal,
+  PinInput,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useAuthLoginMutation, useAuthRegisterMutation, useIsUserAvailableMutation, useSendOTPMutation } from "@/store";
+import {
+  useAuthLoginMutation,
+  useAuthRegisterMutation,
+  useIsUserAvailableMutation,
+  useSendOTPMutation,
+} from "@/store";
 import { decryptToken, formatPhoneNumber, phoneNumberToNumber } from "@/utils";
 import { Icon } from "@/components";
 import { toast } from "react-toastify";
@@ -27,22 +40,21 @@ type view =
   | "password_code"
   | "new_password";
 
+const initialLoginValue = {
+  email: "",
+  password: "",
+};
 
-  const initialLoginValue = {
-    email: "",
-    password: "",
-  }
-
-  const initialRegisterValue = {
-    user_role: "client",
-    fio: "",
-    email: "",
-    phone_number: "",
-    password: "",
-    otp: "",
-  }
+const initialRegisterValue = {
+  user_role: "client",
+  fio: "",
+  email: "",
+  phone_number: "",
+  password: "",
+  otp: "",
+};
 export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [view, setView] = useState<view>("login");
   const [showPassword, { toggle }] = useDisclosure();
 
@@ -57,16 +69,42 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
     },
   ] = useAuthLoginMutation();
 
-  const [isUserAvailable, { data: userAvaData, error: userAvaError, isError: userAvaIsError, isSuccess: userAvaIsSuccess }] = useIsUserAvailableMutation()
+  const [
+    isUserAvailable,
+    {
+      data: userAvaData,
+      error: userAvaError,
+      isError: userAvaIsError,
+      isSuccess: userAvaIsSuccess,
+    },
+  ] = useIsUserAvailableMutation();
 
-  const [sendOtp, { data: otpData, error: otpError, isError: otpIsError, isSuccess: otpIsSuccess, isLoading: otpIsLoading }] = useSendOTPMutation()
+  const [
+    sendOtp,
+    {
+      data: otpData,
+      error: otpError,
+      isError: otpIsError,
+      isSuccess: otpIsSuccess,
+      isLoading: otpIsLoading,
+    },
+  ] = useSendOTPMutation();
 
-  const [register, { data: registerData, error: registerError, isError: registerIsError, isSuccess: registerIsSuccess }] = useAuthRegisterMutation()
+  const [
+    register,
+    {
+      data: registerData,
+      error: registerError,
+      isError: registerIsError,
+      isSuccess: registerIsSuccess,
+    },
+  ] = useAuthRegisterMutation();
 
-  const [loginCredential, setLoginCredential] = useState<loginCredential>(initialLoginValue);
+  const [loginCredential, setLoginCredential] =
+    useState<loginCredential>(initialLoginValue);
 
-
-  const [registerCredential, setRegisterCredential] = useState(initialRegisterValue);
+  const [registerCredential, setRegisterCredential] =
+    useState(initialRegisterValue);
 
   const loginViewHandler = () => {
     const email = loginCredential.email;
@@ -87,27 +125,27 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
     logIn({
       ...loginCredential,
       email: loginCredential.email,
-    })
+    });
   };
-
 
   useEffect(() => {
     if (loginIsError) {
-      toast.error((loginError as any)?.data?.message)
+      toast.error((loginError as any)?.data?.message);
     }
 
     if (loginIsSuccess) {
-      localStorage.setItem('access_token', loginData.token)
-      const decryptedData = decryptToken(loginData.token)
-      toast.success(loginData?.message)
+      if (typeof window !== "undefined") {
+        localStorage.setItem("access_token", loginData.token);
+        const decryptedData = decryptToken(loginData.token);
+        toast.success(loginData?.message);
 
-      setTimeout(() => {
-        dispatch(loginSuccess(decryptedData))
-        window.location.replace('/')
-      }, 2000)
+        setTimeout(() => {
+          dispatch(loginSuccess(decryptedData));
+          window.location.replace("/");
+        }, 1000);
+      }
     }
-
-  }, [loginIsError, loginIsSuccess])
+  }, [loginIsError, loginIsSuccess]);
 
   const LoginView = (
     <>
@@ -169,8 +207,8 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
   const handleRegisterOtp = () => {
     const clearPhoneNumber = phoneNumberToNumber(
       registerCredential.phone_number
-    )
-    const regex = /^992/
+    );
+    const regex = /^992/;
 
     if (!registerCredential?.fio) {
       return toast.warning("Требуется ФИО!");
@@ -185,15 +223,15 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
     }
 
     if (!clearPhoneNumber) {
-      return toast.warning('Требуется номер телефона!')
+      return toast.warning("Требуется номер телефона!");
     }
 
     if (!regex.test(clearPhoneNumber)) {
-      return toast.warning('Номер телефона должен начинаться с 992!')
+      return toast.warning("Номер телефона должен начинаться с 992!");
     }
 
     if (clearPhoneNumber.length < 12) {
-      return toast.warning('Номер телефона может быть неверным!')
+      return toast.warning("Номер телефона может быть неверным!");
     }
 
     if (!registerCredential?.password) {
@@ -201,13 +239,14 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
     }
 
     if (registerCredential?.password?.length < 8) {
-      return toast.warning(
-        'Пароль должен иметь длину не менее 8 символов!'
-      )
+      return toast.warning("Пароль должен иметь длину не менее 8 символов!");
     }
 
-    isUserAvailable({ email: registerCredential?.email, phone_number: registerCredential?.phone_number })
-  }
+    isUserAvailable({
+      email: registerCredential?.email,
+      phone_number: registerCredential?.phone_number,
+    });
+  };
 
   const RegisterView = (
     <>
@@ -218,10 +257,12 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
           className="w-full md:w-[400px]"
           classNames={{ input: "h-[50px] rounded-[16px]", section: "p-2" }}
           leftSection={<Icon name="profile" />}
-          onChange={(e) => setRegisterCredential((prev) => ({
-            ...prev,
-            fio: e.target.value
-          }))}
+          onChange={(e) =>
+            setRegisterCredential((prev) => ({
+              ...prev,
+              fio: e.target.value,
+            }))
+          }
           value={registerCredential?.fio}
         />
         <InputBase
@@ -229,10 +270,12 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
           className="w-full md:w-[400px]"
           classNames={{ input: "h-[50px] rounded-[16px]", section: "p-2" }}
           leftSection={<Icon name="message" />}
-          onChange={(e) => setRegisterCredential((prev) => ({
-            ...prev,
-            email: e.target.value
-          }))}
+          onChange={(e) =>
+            setRegisterCredential((prev) => ({
+              ...prev,
+              email: e.target.value,
+            }))
+          }
           value={registerCredential?.email}
         />
         <InputBase
@@ -240,10 +283,12 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
           className="w-full md:w-[400px]"
           classNames={{ input: "h-[50px] rounded-[16px]", section: "p-2" }}
           leftSection={<Icon name="call" />}
-          onChange={(e) => setRegisterCredential((prev) => ({
-            ...prev,
-            phone_number: formatPhoneNumber(e.target.value)
-          }))}
+          onChange={(e) =>
+            setRegisterCredential((prev) => ({
+              ...prev,
+              phone_number: formatPhoneNumber(e.target.value),
+            }))
+          }
           value={registerCredential.phone_number}
         />
         <InputBase
@@ -259,10 +304,12 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
               name={showPassword ? "show" : "hide"}
             />
           }
-          onChange={(e) => setRegisterCredential((prev) => ({
-            ...prev,
-            password: e.target.value
-          }))}
+          onChange={(e) =>
+            setRegisterCredential((prev) => ({
+              ...prev,
+              password: e.target.value,
+            }))
+          }
           value={registerCredential?.password}
         />
         <Button
@@ -287,45 +334,41 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
   );
 
   useEffect(() => {
-
     if (userAvaIsError) {
       toast.info((userAvaError as any)?.data?.message);
     }
 
     if (userAvaIsSuccess) {
-      sendOtp({ email: registerCredential?.email })
+      sendOtp({ email: registerCredential?.email });
     }
-
-  }, [userAvaIsError, userAvaIsSuccess])
-
+  }, [userAvaIsError, userAvaIsSuccess]);
 
   const handleRegisterUser = () => {
-    const code = registerCredential.otp
+    const code = registerCredential.otp;
 
     if (code.length != 6) {
-      return toast.warning('Требуется OTP-код!')
+      return toast.warning("Требуется OTP-код!");
     }
 
     register({
       ...registerCredential,
       phone_number: phoneNumberToNumber(registerCredential.phone_number),
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     if (otpIsError) {
-      if ((otpError as any).data?.code == '429') {
-        toast.warning((otpError as any)?.data?.message)
+      if ((otpError as any).data?.code == "429") {
+        toast.warning((otpError as any)?.data?.message);
       }
 
-      toast.error((otpError as any)?.data?.message)
+      toast.error((otpError as any)?.data?.message);
     }
 
-    if(otpIsSuccess) {
-      setView('code')
+    if (otpIsSuccess) {
+      setView("code");
     }
-
-  }, [otpIsError, otpIsSuccess])
+  }, [otpIsError, otpIsSuccess]);
 
   const CodeView = (
     <>
@@ -343,9 +386,12 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
           inputType="tel"
           inputMode="numeric"
           value={registerCredential?.otp}
-          onChange={(e) => setRegisterCredential((prev) => ({
-            ...prev, otp: e
-          }))}
+          onChange={(e) =>
+            setRegisterCredential((prev) => ({
+              ...prev,
+              otp: e,
+            }))
+          }
         />
         <Button
           variant="filled"
@@ -359,18 +405,16 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
     </>
   );
 
-
   useEffect(() => {
     if (registerIsError) {
-      toast.error((registerError as any)?.data?.message)
+      toast.error((registerError as any)?.data?.message);
     }
 
     if (registerIsSuccess) {
-      toast.success((registerData as any)?.message)
-      window.location.reload()
+      toast.success((registerData as any)?.message);
+      window.location.reload();
     }
-
-  }, [registerIsError, registerIsSuccess])
+  }, [registerIsError, registerIsSuccess]);
 
   const RecoveryView = (
     <>
@@ -398,12 +442,18 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
   const NewPasswordCodeView = <></>;
 
   return (
-    <Modal fullScreen onClose={() => {
-      onClose()
-      setView('login')
-      setRegisterCredential(initialRegisterValue)
-      setLoginCredential(initialLoginValue)
-    }} opened={opened} centered title="">
+    <Modal
+      fullScreen
+      onClose={() => {
+        onClose();
+        setView("login");
+        setRegisterCredential(initialRegisterValue);
+        setLoginCredential(initialLoginValue);
+      }}
+      opened={opened}
+      centered
+      title=""
+    >
       <div>
         <Flex direction={"column"} className="w-full" align={"center"}>
           <Icon
@@ -419,8 +469,13 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
         {view == "password_code" && ForgotPasswordCodeView}
         {view == "new_password" && NewPasswordCodeView}
       </div>
-      
-      <LoadingOverlay visible={otpIsLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} loaderProps={{ color: 'green', type: 'oval' }} />
+
+      <LoadingOverlay
+        visible={otpIsLoading}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+        loaderProps={{ color: "green", type: "oval" }}
+      />
     </Modal>
   );
 };
