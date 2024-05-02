@@ -49,7 +49,7 @@ export default function AppHeader() {
     <header className={`${classes.header} shadow-md fixed z-50 w-full`}>
       <Container size="md">
         <div className={classes.inner}>
-          {/* <AppLogo /> */}
+          <AppLogo />
           <Autocomplete
             className={"w-full hidden lg:grid"}
             classNames={{

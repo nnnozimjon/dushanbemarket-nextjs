@@ -21,7 +21,7 @@ export default function RootLayout({
             <MantineProvider>
               <AppHeader />
               <div className="pt-[110px] md:pt-[50px]">{children}</div>
-              {/* <AppFooter /> */}
+              <AppFooter />
               <ToastContainer
                 position="top-right"
                 autoClose={5000}
