@@ -4,10 +4,9 @@ import "@mantine/core/styles.css";
 import "./globals.css";
 import { store } from "@/store";
 import { MantineProvider } from "@mantine/core";
-import { AppFooter, AppHeader } from "@/components";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 export default function RootLayout({
   children,
@@ -17,19 +16,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-          <Provider store={store}>
-            <MantineProvider>
-              <AppHeader />
-              <div className="pt-[110px] md:pt-[50px]">{children}</div>
-              <AppFooter />
-              <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                newestOnTop={true}
-                pauseOnHover
-              />
-            </MantineProvider>
-          </Provider>
+        <Provider store={store}>
+          <MantineProvider>
+            {children}
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              newestOnTop={true}
+              pauseOnHover
+            />
+          </MantineProvider>
+        </Provider>
       </body>
     </html>
   );
