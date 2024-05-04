@@ -3,10 +3,11 @@ import React from 'react'
 import { Icon, ProductCard } from '@/components'
 import { Container, Flex, SimpleGrid, Text } from '@mantine/core'
 import { useSelector } from 'react-redux'
+import { RootState } from '@/store/store'
 
 
 export default function WishlistPage(){
-    const wishlist = useSelector((state: any) => state?.wishlist)
+    const wishlist = useSelector((state: RootState) => state?.wishlist)
 
     return (
         <Container size={'xl'}>

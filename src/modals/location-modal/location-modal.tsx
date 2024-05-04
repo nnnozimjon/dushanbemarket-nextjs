@@ -1,6 +1,7 @@
 "use client"
 
 import { setCity } from '@/store/slices';
+import { RootState } from '@/store/store';
 import { Grid, Modal, Text } from '@mantine/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +13,7 @@ interface Props {
 
 export const LocationModal: React.FC<Props> = ({ onClose, opened }) => {
     const dispatch = useDispatch()
-    const userLocation = useSelector((state: any) => state?.location?.city)
+    const userLocation = useSelector((state: RootState) => state?.location?.city)
 
     const changeLocation = (city: string) => {
         dispatch(setCity(city))

@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { decryptToken } from "../../utils";
 
+
+type UserRole = 'admin' | 'merchant' | 'client';
+
 interface User {
-  user_role: string;
+  user_role: UserRole;
   access_token: string;
   id: number;
   phone_number: number;

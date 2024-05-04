@@ -5,6 +5,7 @@ import { Icon } from '..'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, addToWishlist, removeFromWishlist, removeProductById } from '../../store/slices'
+import { RootState } from '@/store/store'
 
 interface Props {
     img: string;
@@ -17,11 +18,11 @@ interface Props {
 
 export default function ProductCard({ img, name, price, id, created_by, storeName }: Props){
     const dispatch = useDispatch()
-    const products: any[] = useSelector((state: any) => state?.wishlist?.products)
+    const products: any[] = useSelector((state: RootState) => state?.wishlist?.products)
 
     const productImage = img ? img?.split(',') : []
 
-    const cartProducts: any[] = useSelector((state: any) => state?.cart?.products)
+    const cartProducts: any[] = useSelector((state: RootState) => state?.cart?.products)
 
     const isLiked = React.useMemo(() => {
         return products?.find((product) => product.id === id);

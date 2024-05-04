@@ -19,17 +19,18 @@ import { useDisclosure } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices";
 import { formatPhoneNumber } from "@/utils";
+import { RootState } from "@/store/store";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(
-    (state: any) => state.user.isAuthenticated
+    (state: RootState) => state.user.isAuthenticated
   );
 
   const [modalOpened, { open: modalOpen, close: modalClose }] =
     useDisclosure(false);
-  const user = useSelector((state: any) => state?.user?.user);
-  const userLocation = useSelector((state: any) => state?.location?.city);
+  const user: any = useSelector((state: RootState) => state?.user?.user);
+  const userLocation = useSelector((state: RootState) => state?.location?.city);
   const [opened, { close, open }] = useDisclosure();
   const [pageSize, setPageSize] = useState(20);
   const [pageNumber] = useState(1);

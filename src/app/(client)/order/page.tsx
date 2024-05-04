@@ -4,6 +4,7 @@ import { Alert, Box, Button, Container, Flex, InputBase, NumberInput, Paper, Tex
 import { useDispatch, useSelector } from 'react-redux'
 import {  Icon } from '@/components'
 import { formatPhoneNumber } from '@/utils'
+import { RootState } from '@/store/store'
 
 
 
@@ -14,7 +15,7 @@ export default function OrderPage() {
         comment: ''
     })
     const dispatch = useDispatch()
-    const cart = useSelector((state: any) => state?.cart)
+    const cart = useSelector((state: RootState) => state?.cart)
 
     function groupProductsByCreatedBy(products: any) {
         const groupedProducts: any = {};

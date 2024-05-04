@@ -12,9 +12,10 @@ import { Container, Flex, SimpleGrid, Skeleton } from '@mantine/core';
 import { useSelector } from 'react-redux';
 import Link from 'next/link'
 import { ProductCard } from '@/components';
+import { RootState } from '@/store/store';
 
 export default function Home() {
-  const user: any = useSelector((state: any) => state.user.user);
+  const user = useSelector((state: RootState) => state.user.user);
     const [pageSize, setPageSize] = useState(20);
     const [pageNumber] = useState(1);
 

@@ -8,14 +8,15 @@ import { useSelector } from "react-redux";
 import { ObjectToParams } from "@/utils/objectToParams";
 import { useGetAllFrontProductsByPaginationQuery } from "@/store";
 import { useEffect, useState } from "react";
+import { RootState } from "@/store/store";
 
 export default function AppHeader() {
   const [searchData, setSearchData] = useState<{ name: string, id: string }[]>([])
   const [search, setSearch] = useState<string>('')
 
-  const user = useSelector((state: any) => state?.user);
-  const cart = useSelector((state: any) => state?.cart);
-  const wishlist = useSelector((state: any) => state?.wishlist);
+  const user = useSelector((state: RootState) => state?.user);
+  const cart = useSelector((state: RootState) => state?.cart);
+  const wishlist = useSelector((state: RootState) => state?.wishlist);
 
   const {
     data: dataProducts,

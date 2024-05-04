@@ -4,12 +4,13 @@ import { Button, Container, Flex, Text } from '@mantine/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { Counter, Icon } from '@/components'
 import { addToCart, removeFromCart, removeProductById } from '@/store/slices'
+import { RootState } from '@/store/store'
 
 
 
 export default function CartPage() {
     const dispatch = useDispatch()
-    const cart = useSelector((state: any) => state?.cart)
+    const cart = useSelector((state: RootState) => state?.cart)
 
     const increaseProductQty = (product: any) => {
         dispatch(addToCart(product))

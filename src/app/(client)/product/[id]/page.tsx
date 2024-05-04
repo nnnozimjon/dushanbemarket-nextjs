@@ -21,6 +21,7 @@ import { addToCart, addToWishlist, removeFromWishlist, removeProductById } from 
 import { ObjectToParams } from '@/utils/objectToParams';
 import { colors } from "@/utils/color";
 import { toast } from 'react-toastify';
+import { RootState } from '@/store/store';
 
 
 interface Color {
@@ -35,8 +36,8 @@ export default function ProductPage() {
 
 
   const dispatch = useDispatch()
-  const cart: any[] = useSelector((state: any) => state?.cart?.products)
-  const wishlist: any[] = useSelector((state: any) => state?.wishlist?.products)
+  const cart: any[] = useSelector((state: RootState) => state?.cart?.products)
+  const wishlist: any[] = useSelector((state: RootState) => state?.wishlist?.products)
 
 
   const { id }: any = useParams()
