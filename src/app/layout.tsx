@@ -7,7 +7,6 @@ import { MantineProvider } from "@mantine/core";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AuthProvider } from "@/context/AuthContext";
 
 export default function RootLayout({
   children,
@@ -19,7 +18,7 @@ export default function RootLayout({
       <body>
         <Provider store={store}>
           <MantineProvider>
-            <AuthProvider>{children}</AuthProvider>
+            {children}
             <ToastContainer
               position="top-right"
               autoClose={5000}

@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuthorize } from "@/hooks/useAuthorize";
 import { MerchantLayout } from "@/merchant-components";
 
 export default function RootLayout({
@@ -8,8 +7,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const checkRole = (userRole: string) => userRole === 'merchant';
-  useAuthorize(checkRole, '/');
-  
     return <MerchantLayout>{children}</MerchantLayout>;
 }
