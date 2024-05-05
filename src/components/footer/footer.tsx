@@ -3,28 +3,28 @@ import classes from './styles.module.css';
 import { AppLogo } from '..'
 
 const data = [
+    // {
+    //     title: 'About',
+    //     links: [
+    //         { label: 'Features', link: '#' },
+    //         { label: 'Pricing', link: '#' },
+    //         { label: 'Support', link: '#' },
+    //         { label: 'Forums', link: '#' },
+    //     ],
+    // },
+    // {
+    //     title: 'Project',
+    //     links: [
+    //         { label: 'Contribute', link: '#' },
+    //         { label: 'Media assets', link: '#' },
+    //         { label: 'Changelog', link: '#' },
+    //         { label: 'Releases', link: '#' },
+    //     ],
+    // },
     {
-        title: 'About',
+        title: 'Мы в Соцсетях',
         links: [
-            { label: 'Features', link: '#' },
-            { label: 'Pricing', link: '#' },
-            { label: 'Support', link: '#' },
-            { label: 'Forums', link: '#' },
-        ],
-    },
-    {
-        title: 'Project',
-        links: [
-            { label: 'Contribute', link: '#' },
-            { label: 'Media assets', link: '#' },
-            { label: 'Changelog', link: '#' },
-            { label: 'Releases', link: '#' },
-        ],
-    },
-    {
-        title: 'Community',
-        links: [
-            { label: 'Instagram', link: '#' },
+            { label: 'Instagram', link: 'https://instagram.com/duwanbemarket' },
             { label: 'Facebook', link: '#' },
         ],
     },
@@ -38,7 +38,6 @@ export default function AppFooter() {
                 className={classes.link}
                 component="a"
                 href={link.link}
-                onClick={(event) => event.preventDefault()}
             >
                 {link.label}
             </Text>
@@ -58,7 +57,7 @@ export default function AppFooter() {
                 <div className={classes.logo}>
                     <AppLogo />
                     <Text size="xs" c="white" className={classes.description}>
-                        Shopping become easy!
+                        Покупки станут проще
                     </Text>
                 </div>
                 <div className={classes.groups}>{groups}</div>

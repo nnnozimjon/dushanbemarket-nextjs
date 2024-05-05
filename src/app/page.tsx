@@ -66,7 +66,7 @@ export default function Home() {
     <Container size={'xl'}>
             <div className={'p-2 md:px-[70px] md:py-10'}>
                 <Flex gap={'lg'} className='md:flex-wrap overflow-scroll scrollbar-hide md:mb-10 mb-4'>
-                    {isLoadingCt || isErrorCt && Array.from({ length: 14 }, (_, index) =>
+                    {isLoadingCt && Array.from({ length: 14 }, (_, index) =>
                         <Skeleton key={index} className='shrink-0 h-[80px] md:h-[100px] w-[80px] md:w-[100px] !m-0' circle mb={'xl'} />
                     )}
 
