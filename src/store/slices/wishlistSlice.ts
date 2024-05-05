@@ -11,6 +11,8 @@ interface Product {
     images?: string;
     created_by: number;
     storeName: string;
+    sizes?: string;
+    colors?: string;
 }
 
 const initialState: WishlistState = { products: [] };

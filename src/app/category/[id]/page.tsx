@@ -124,6 +124,7 @@ export default function CategoryPage() {
                     price={item?.price}
                     created_by={item?.created_by}
                     storeName={item?.storeName}
+                    sizes={item?.sizes} colors={item?.colors}
                   />
                 ))}
             </SimpleGrid>

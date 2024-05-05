@@ -14,9 +14,11 @@ interface Props {
     id: number
     storeName: string
     created_by: number
+    sizes?: string
+    colors?: string
 }
 
-export default function ProductCard({ img, name, price, id, created_by, storeName }: Props){
+export default function ProductCard({ img, name, price, id, created_by, storeName, sizes = "", colors = "" }: Props){
     const dispatch = useDispatch()
     const products: any[] = useSelector((state: RootState) => state?.wishlist?.products)
 
@@ -33,7 +35,7 @@ export default function ProductCard({ img, name, price, id, created_by, storeNam
     }, [cartProducts, id]);
 
     const handleAddToWishList = () => {
-        dispatch(addToWishlist({ id, name, images: img, price, storeName, created_by }))
+        dispatch(addToWishlist({ id, name, images: img, price, storeName, created_by, sizes, colors }))
     }
 
     const handleRemoveFromWishlist = () => {
@@ -41,7 +43,7 @@ export default function ProductCard({ img, name, price, id, created_by, storeNam
     }
 
     const handleAddToCart = () => {
-        dispatch(addToCart({ id, name, images: img, price, created_by, storeName }))
+        dispatch(addToCart({ id, name, images: img, price, created_by, storeName, sizes, colors }))
     }
 
     const handleRemoveFromCart = () => {

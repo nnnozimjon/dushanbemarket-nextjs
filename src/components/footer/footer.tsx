@@ -67,7 +67,7 @@ export default function AppFooter() {
                     2024 Dushanbe Market
                 </Text>
 
-                <Group gap={0} className={classes.social} justify="flex-end" wrap="nowrap">
+                {/* <Group gap={0} className={classes.social} justify="flex-end" wrap="nowrap">
                     <ActionIcon size="lg" color="white" variant="subtle">
                         I
                     </ActionIcon>
@@ -77,7 +77,7 @@ export default function AppFooter() {
                     <ActionIcon size="lg" color="white" variant="subtle">
                         T
                     </ActionIcon>
-                </Group>
+                </Group> */}
             </Container>
         </footer>
     );

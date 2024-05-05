@@ -50,6 +50,7 @@ export default function ActiveOrdersPage() {
                   price={item?.price}
                   created_by={item?.created_by}
                   storeName={item?.storeName}
+                  sizes={item?.sizes} colors={item?.colors}
                 />
               ))}
             </Flex>
