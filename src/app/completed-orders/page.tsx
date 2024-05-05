@@ -32,9 +32,9 @@ export default function CompletedOrdersPage() {
             <h1 className="text-[18px] md:text-[2em]">
               Cписок завершенных заказов
             </h1>
-            <Text className="p-0 m-0">({data?.payload?.length} товар)</Text>
+            <Text className="p-0 m-0">({data?.payload?.length || '0'} товар)</Text>
           </Flex>
-          {data?.payload?.length == 0 && (
+          {data?.payload?.length == 0 || isError && (
             <Flex
               direction={"column"}
               gap={"lg"}
