@@ -23,3 +23,5 @@ export {
 } from "./api/merchantProductApi";
 
 export { useGetAllCategoryQuery } from "./api/merchantCategoryApi";
+
+export { useOrderProductsMutation, useGetAllOrdersQuery } from './api/frontOrderApi'

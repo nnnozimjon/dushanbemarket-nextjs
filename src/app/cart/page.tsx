@@ -13,9 +13,15 @@ import {
 } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { Counter, Icon } from "@/components";
-import { addToCart, removeFromCart, removeProductById } from "@/store/slices";
+import {
+  addToCart,
+  removeFromCart,
+  removeProductById,
+  updateSelectedOptions,
+} from "@/store/slices";
 import { RootState } from "@/store/store";
 import { colors } from "@/utils/color";
+import { toast } from "react-toastify";
 
 interface Color {
   label: string;
@@ -44,6 +50,10 @@ export default function CartPage() {
     dispatch(removeProductById(product?.id));
   };
 
+  const updateProductOptions = (productId: number, selectedOptions: any) => {
+    dispatch(updateSelectedOptions({ productId, selectedOptions }));
+  };
+
   function groupProductsByCreatedBy(products: any) {
     const groupedProducts: any = {};
 
@@ -60,13 +70,28 @@ export default function CartPage() {
 
   const sortedProducts = groupProductsByCreatedBy(cart?.products);
 
-  let colorsList = ["red", "green", "blue"];
-
   function filterColors(colors: Color[], colorList: string[]): Color[] {
     return colors.filter((color) => colorList?.includes(color.value));
   }
 
-  const filteredColors: Color[] = filterColors(colors, colorsList);
+  const completeOrder = () => {
+    const products = cart?.products;
+
+    for (let i = 0; i < products.length; i++) {
+        const product = products[i];
+        // Check if the product has colors
+        if (product.colors && !product.selectedOptions?.color) {
+            return toast.info('Пожалуйста, выберите цвет товара');
+        }
+
+        // Check if the product has sizes
+        if (product.sizes && !product.selectedOptions?.size) {
+            return toast.info('Пожалуйста, выберите размер товара');
+        }
+    }
+
+    window.location.replace("/order")
+  };
 
   return (
     <Container size={"xl"}>
@@ -155,7 +180,7 @@ export default function CartPage() {
                         />
                       </Flex>
                       <div>
-                        {product?.sizes?.length !== 0 && (
+                        {!!product?.sizes && (
                           <Flex
                             gap={"md"}
                             align={"center"}
@@ -171,21 +196,20 @@ export default function CartPage() {
                                 <Pill
                                   key={index}
                                   bg={
-                                    productOptions?.size == size
+                                    product?.selectedOptions?.size == size
                                       ? "green"
                                       : "white"
                                   }
                                   c={
-                                    productOptions?.size == size
+                                    product?.selectedOptions?.size == size
                                       ? "white"
                                       : "green"
                                   }
                                   className="cursor-pointer"
                                   onClick={() =>
-                                    setProductOptions((prev) => ({
-                                      ...prev,
+                                    updateProductOptions(product?.id, {
                                       size: size,
-                                    }))
+                                    })
                                   }
                                 >
                                   {size}
@@ -193,7 +217,7 @@ export default function CartPage() {
                               ))}
                           </Flex>
                         )}
-                        {product?.colors?.length !== 0 && (
+                        {!!product?.colors && (
                           <Flex gap={"lg"} align={"center"}>
                             <Text className="p-0 m-0 text-[#949aa0]">
                               Цвета:
@@ -212,13 +236,13 @@ export default function CartPage() {
                                     color?.value == "white" ? "green" : "white",
                                 }}
                                 onClick={() =>
-                                  setProductOptions((prev) => ({
-                                    ...prev,
-                                    color: color?.color,
-                                  }))
+                                  updateProductOptions(product?.id, {
+                                    color: color?.value,
+                                  })
                                 }
                               >
-                                {productOptions?.color == color?.color && (
+                                {product?.selectedOptions?.color ==
+                                  color?.value && (
                                   <CheckIcon
                                     style={{ width: rem(12), height: rem(12) }}
                                   />
@@ -302,7 +326,7 @@ export default function CartPage() {
               <Button
                 bg={"green"}
                 className="w-full text-[18px] h-[50px]"
-                onClick={() => window.location.replace("/order")}
+                onClick={completeOrder}
               >
                 Перейти к оформлению
               </Button>

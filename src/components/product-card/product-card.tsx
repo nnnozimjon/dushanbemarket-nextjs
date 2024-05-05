@@ -78,7 +78,7 @@ export default function ProductCard({ img, name, price, id, created_by, storeNam
             <Flex className='bg-[#f8f8f8] mt-2 p-2 rounded-[10px]' align={'center'}>
                 <div className='w-full'>
                     {!name ? <Skeleton className="h-[15px] w-4/6 mt-4" radius="xl" /> :
-                    <Link href={`/product/${id ? id : '2'}`} className={'text-[14px] md:text-[16px] w-fit font-bold text-[#212121] mb-0 font-[Urbanist] no-underline '}>
+                    <Link href={`/product/${id}`} className={'text-[14px] md:text-[16px] w-fit font-bold text-[#212121] mb-0 font-[Urbanist] no-underline '}>
                         {name}
                     </Link>}
                     {price ? <Text className='mt-0 text-[14px] md:text-[16px] font-bold text-[#01B763] flex items-center'>

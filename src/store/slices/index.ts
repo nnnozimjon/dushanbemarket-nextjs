@@ -3,6 +3,8 @@ export {
     addToCart,
     removeFromCart,
     removeProductById,
+    updateSelectedOptions,
+    clearFullyCart
 } from './cartSlice'
 
 export { userReducer, loginSuccess, logout } from './userSlice'

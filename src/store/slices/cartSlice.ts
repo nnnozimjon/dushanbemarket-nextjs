@@ -10,8 +10,14 @@ interface Product {
   images?: string;
   created_by: number;
   storeName: string;
-  sizes?: string
-  colors?: string
+  sizes?: string;
+  colors?: string;
+  selectedOptions?: productOptions;
+}
+
+interface productOptions {
+  size: string;
+  color: string;
 }
 
 interface CartState {
@@ -120,9 +126,58 @@ const cartSlice = createSlice({
         }
       }
     },
+    updateSelectedOptions: (
+      state,
+      action: PayloadAction<{
+        productId: number;
+        selectedOptions: productOptions;
+      }>
+    ) => {
+      if (typeof window !== "undefined") {
+        const { products } = state;
+        const { productId, selectedOptions } = action.payload;
+
+        // Find the product in the cart
+        const product = products.find((p) => p.id === productId);
+
+        if (product) {
+          if (selectedOptions.color) {
+            // @ts-ignore
+            product.selectedOptions = {
+              ...product.selectedOptions,
+              color: selectedOptions.color,
+            };
+          }
+
+          if (selectedOptions.size) {
+            // @ts-ignore
+            product.selectedOptions = {
+              ...product.selectedOptions,
+              size: selectedOptions.size,
+            };
+          }
+
+          // Save updated cart state to localStorage
+          localStorage.setItem("cartState", JSON.stringify(state));
+        }
+      }
+    },
+    clearFullyCart: (state) => {
+      if (typeof window !== "undefined") {
+        state.products = [];
+        state.totalItems = 0;
+        state.totalPrice = 0;
+        localStorage.removeItem("cartState");
+      }
+    },
   },
 });
 
-export const { addToCart, removeFromCart, removeProductById } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  removeProductById,
+  updateSelectedOptions,
+  clearFullyCart
+} = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;

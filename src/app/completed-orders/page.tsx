@@ -1,10 +1,28 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Icon, ProductCard } from "@/components";
-import { Container, Flex, Text } from "@mantine/core";
+import {
+  Container,
+  Flex,
+  LoadingOverlay,
+  SimpleGrid,
+  Text,
+} from "@mantine/core";
+import ActiveOrderCard from "@/components/active-orders-card/active-orders-card";
+import { useGetAllOrdersQuery } from "@/store";
 
 export default function CompletedOrdersPage() {
-  const activeOrdersList: any = [];
+  const { data, error, isError, isSuccess, isLoading } = useGetAllOrdersQuery(
+    '?type=completed'
+  );
+
+  useEffect(() => {
+    if (isError) {
+    }
+
+    if (isSuccess) {
+    }
+  }, [isError, isSuccess]);
 
   return (
     <Container size={"xl"}>
@@ -14,9 +32,9 @@ export default function CompletedOrdersPage() {
             <h1 className="text-[18px] md:text-[2em]">
               Cписок завершенных заказов
             </h1>
-            <Text className="p-0 m-0">({activeOrdersList?.length} товар)</Text>
+            <Text className="p-0 m-0">({data?.payload?.length} товар)</Text>
           </Flex>
-          {activeOrdersList?.length == 0 && (
+          {data?.payload?.length == 0 && (
             <Flex
               direction={"column"}
               gap={"lg"}
@@ -38,25 +56,32 @@ export default function CompletedOrdersPage() {
               </Flex>
             </Flex>
           )}
-          {activeOrdersList?.length > 0 && (
-            <Flex gap={"lg"} wrap={"wrap"} align={"center"} justify={"start"}>
-              {activeOrdersList?.map((item: any, index: number) => (
-                <ProductCard
+          <SimpleGrid
+            cols={{ base: 2, lg: 5, md: 4, sm: 3 }}
+            spacing={{ base: 10, sm: "xl" }}
+            verticalSpacing={{ base: "md", sm: "xl" }}
+          >
+            {!isLoading &&
+              data?.payload?.map((item: any, index: number) => (
+                <ActiveOrderCard
                   key={index}
-                  id={item?.id}
-                  img={item?.images}
-                  name={item?.name}
-                  price={item?.price}
-                  created_by={item?.created_by}
-                  storeName={item?.storeName}
-                  sizes={item?.sizes}
-                  colors={item?.colors}
+                  order_id={item?.order_id}
+                  order_item_id={item?.order_item_id}
+                  product_id={item?.product_id}
+                  img={item?.product_img}
+                  name={item?.product_name}
+                  status={item?.order_status}
                 />
               ))}
-            </Flex>
-          )}
+          </SimpleGrid>
         </div>
       </div>
+      <LoadingOverlay
+        visible={isLoading}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+        loaderProps={{ color: "green", type: "oval" }}
+      />
     </Container>
   );
 }
