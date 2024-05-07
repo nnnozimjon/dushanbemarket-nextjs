@@ -38,5 +38,5 @@ jobs:
       - name: Unarchive artifact
         run: | 
           tar -xf build.tar.gz -C /home/deployer/actions-runner/
-          cp -R /home/deployer/actions-runner/build /var/www/dushanbemarket-frontend/
-          rm -rf /home/deployer/actions-runner/build
+          cp -R /home/deployer/actions-runner/.next /var/www/dushanbemarket-frontend/
+          rm -rf /home/deployer/actions-runner/.next
