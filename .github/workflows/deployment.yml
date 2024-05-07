@@ -1,0 +1,42 @@
+name: dushambemarket-front
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dep
+        run: |
+          CI=false && npm install
+          npm run build
+      - name: Archive datas
+        run: tar --exclude=build.tar.gz -czf build.tar.gz  ./.next
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: _build
+          path: build.tar.gz
+
+  deploy:
+    runs-on: [self-hosted,gh-dushanbemarket-front]  
+    needs: build
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: _build
+
+      - name: Unarchive artifact
+        run: | 
+          tar -xf build.tar.gz -C /home/deployer/actions-runner/
+          cp -R /home/deployer/actions-runner/.next /var/www/dushanbemarket.com/
+          rm -rf /home/deployer/actions-runner/.next
