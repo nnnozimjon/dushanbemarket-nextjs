@@ -40,3 +40,6 @@ jobs:
           tar -xf build.tar.gz -C /home/deployer/actions-runner/
           cp -R /home/deployer/actions-runner/.next /var/www/dushanbemarket.com/
           rm -rf /home/deployer/actions-runner/.next
+      
+      - name: Restart PM2 process
+        run: pm2 restart example.com
