@@ -40,9 +40,4 @@ jobs:
           tar -xf build.tar.gz -C /home/deployer/actions-runner/
           cp -R /home/deployer/actions-runner/.next /var/www/dushanbemarket.com/
           rm -rf /home/deployer/actions-runner/.next
-      
-      - name: Install PM2
-        run: npm install -g pm2
-        
-      - name: Restart PM2 process
-        run: pm2 restart example.com
+          npx pm2 restart example.com
