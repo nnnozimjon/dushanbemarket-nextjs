@@ -118,7 +118,7 @@ export default function Home() {
             />
           )}
         </SimpleGrid>
-  <h1>Testing ci - cd</h1>
+
         <h1>Категории</h1>
         <Flex
           gap={"lg"}
