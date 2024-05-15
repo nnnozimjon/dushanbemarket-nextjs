@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
+
+import React, { useEffect, useState } from "react";
 import { ActiveOrderCard, Icon } from "@/components";
 
 import {
@@ -12,15 +13,17 @@ import {
 import { useGetAllOrdersQuery } from "@/store";
 
 export default function ActiveOrdersPage() {
-  const { data, error, isError, isSuccess, isLoading } = useGetAllOrdersQuery(
-    '?type=active'
-  );
+  const [orders, setOrders] = useState([]);
+
+  const { data, error, isError, isSuccess, isLoading } =
+    useGetAllOrdersQuery("?type=active");
 
   useEffect(() => {
     if (isError) {
     }
 
     if (isSuccess) {
+      setOrders(data?.payload);
     }
   }, [isError, isSuccess]);
 
@@ -32,9 +35,11 @@ export default function ActiveOrdersPage() {
             <h1 className="text-[18px] md:text-[2em]">
               Cписок активные заказы
             </h1>
-            <Text className="p-0 m-0">({data?.payload?.length || '0'} товар)</Text>
+            <Text className="p-0 m-0">
+              ({data?.payload?.length || "0"} товар)
+            </Text>
           </Flex>
-          {data?.payload?.length == 0 || isError && (
+          {orders?.length == 0 && (
             <Flex
               direction={"column"}
               gap={"lg"}
@@ -62,7 +67,7 @@ export default function ActiveOrdersPage() {
             verticalSpacing={{ base: "md", sm: "xl" }}
           >
             {!isLoading &&
-              data?.payload?.map((item: any, index: number) => (
+              orders?.map((item: any, index: number) => (
                 <ActiveOrderCard
                   key={index}
                   order_id={item?.order_id}

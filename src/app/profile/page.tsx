@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -32,6 +32,9 @@ export default function ProfilePage() {
   const user: any = useSelector((state: RootState) => state?.user?.user);
   const userLocation = useSelector((state: RootState) => state?.location?.city);
   const [opened, { close, open }] = useDisclosure();
+
+  const [products, setProducts] = useState([]);
+
   const [pageSize, setPageSize] = useState(20);
   const [pageNumber] = useState(1);
 
@@ -45,6 +48,15 @@ export default function ProfilePage() {
   } = useGetAllFrontProductsByPaginationQuery(
     ObjectToParams({ pageSize, pageNumber, order: "rand" })
   );
+
+  useEffect(() => {
+    if (isErrorProducts) {
+    }
+
+    if (isSuccessProducts) {
+      setProducts(dataProducts?.payload);
+    }
+  }, [isErrorProducts, isSuccessProducts]);
 
   return (
     <Container size={"xl"}>
@@ -167,28 +179,28 @@ export default function ProfilePage() {
           </Alert>
         )}
 
-        <h1>Новинки</h1>
+        {!!products?.length && <h1>Новинки</h1>}
+        
         <SimpleGrid
           cols={{ base: 2, lg: 5, md: 4, sm: 3 }}
           spacing={{ base: 10, sm: "xl" }}
           verticalSpacing={{ base: "md", sm: "xl" }}
         >
-          {isLoadingProducts ||
-            (isErrorProducts &&
-              Array.from({ length: 10 }, (_, index) => (
-                <ProductCard
-                  key={index}
-                  id={0}
-                  img={""}
-                  name={""}
-                  price={0}
-                  created_by={0}
-                  storeName=""
-                />
-              )))}
+          {isLoadingProducts &&
+            Array.from({ length: 10 }, (_, index) => (
+              <ProductCard
+                key={index}
+                id={0}
+                img={""}
+                name={""}
+                price={0}
+                created_by={0}
+                storeName=""
+              />
+            ))}
 
           {!isLoadingProducts &&
-            dataProducts?.payload?.map((item: any, index: number) => (
+            products?.map((item: any, index: number) => (
               <ProductCard
                 key={index}
                 id={item?.id}

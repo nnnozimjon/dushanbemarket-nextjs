@@ -1,9 +1,7 @@
 "use client";
 
-export const usingAuth = (): string => {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("access_token") || "";
-  }
+import { getCookie } from "cookies-next";
 
-  return "";
+export const usingAuth = (): string => {
+  return getCookie("access_token") || "";
 };

@@ -1,10 +1,10 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Flex,
   Image,
-  Select,
   SimpleGrid,
   Text,
 } from "@mantine/core";
@@ -19,6 +19,9 @@ import empty from "@/assets/empty-cart.png";
 import { useParams } from "next/navigation";
 
 export default function CategoryPage() {
+  const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
+
   const [pageSize, setPageSize] = useState(20);
   const [pageNumber] = useState(1);
   const urlSearchParams = new URLSearchParams(window.location.search);
@@ -49,10 +52,25 @@ export default function CategoryPage() {
     error: errorCt,
   } = useGetAllWidgetsQuery(params?.id);
 
+
+  useEffect(() => {
+    if (isSuccessProducts) {
+      setProducts(dataProducts?.payload)
+    }
+
+  }, [isSuccessProducts, isErrorProducts])
+
+  useEffect(() => {
+    if (isSuccessCt) {
+      setCategories(dataCt?.payload)
+    }
+
+  }, [isSuccessCt, isErrorCt])
+
   return (
     <Container size={"xl"}>
       <div className="p-2 md:px-[70px] md:py-10">
-        {dataCt?.payload?.length > 0 && (
+        {categories?.length > 0 && (
           <h1 className="text-[18px] md:text-[2em] mb-2">
             Популярные категории
           </h1>
@@ -63,7 +81,7 @@ export default function CategoryPage() {
           verticalSpacing={{ base: "md", sm: "xl" }}
         >
           {!isLoadingCt &&
-            dataCt?.payload?.map((item: any, index: number) => (
+            categories?.map((item: any, index: number) => (
               <Link
                 className="no-underline text-[black]"
                 key={index}
@@ -91,6 +109,7 @@ export default function CategoryPage() {
           <Text className="text-[rgba(0,0,0,0.3)]">0 товар</Text>
         </Flex>
         <Flex className="py-[30px]" gap={"lg"}>
+            
           {/* <div className='w-[350px] p-2 h-screen hidden md:block'>
           <Filter />
         </div> */}
@@ -115,7 +134,7 @@ export default function CategoryPage() {
                 ))}
 
               {!isLoadingProducts &&
-                dataProducts?.payload?.map((item: any, index: number) => (
+                products?.map((item: any, index: number) => (
                   <ProductCard
                     key={index}
                     id={item?.id}
@@ -130,7 +149,7 @@ export default function CategoryPage() {
             </SimpleGrid>
           </div>
         </Flex>
-        {dataProducts?.payload?.length == 0 && (
+        {products?.length == 0 && (
           <Flex
             direction={"column"}
             gap={"lg"}

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { decryptToken } from "../../utils";
+import { deleteCookie, getCookie } from "cookies-next";
 
-
-type UserRole = 'admin' | 'merchant' | 'client';
+type UserRole = "admin" | "merchant" | "client";
 
 interface User {
   user_role: UserRole;
@@ -19,28 +19,26 @@ interface InitialState {
 }
 
 const getInitialState = (): InitialState => {
-  if (typeof window !== "undefined") {
-    const storedToken = localStorage.getItem("access_token");
+  const storedToken = getCookie("access_token");
 
-    if (storedToken) {
-      const decryptedToken: any = decryptToken(storedToken);
+  if (storedToken) {
+    const decryptedToken: any = decryptToken(storedToken);
 
-      try {
-        const { id, phone_number, fio, user_role, email } = decryptedToken;
-        return {
-          user: {
-            fio,
-            id,
-            phone_number,
-            access_token: storedToken,
-            user_role,
-            email,
-          },
-          isAuthenticated: true,
-        };
-      } catch (error) {
-        console.error("Error parsing decrypted token:", error);
-      }
+    try {
+      const { id, phone_number, fio, user_role, email } = decryptedToken;
+      return {
+        user: {
+          fio,
+          id,
+          phone_number,
+          access_token: storedToken,
+          user_role,
+          email,
+        },
+        isAuthenticated: true,
+      };
+    } catch (error) {
+      console.error("Error parsing decrypted token:", error);
     }
   }
 
@@ -57,15 +55,13 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess: (state, action) => {
-        state.user = action.payload;
-        state.isAuthenticated = true;
+      state.user = action.payload;
+      state.isAuthenticated = true;
     },
     logout: (state) => {
-      if (typeof window !== "undefined") {
-        state.user = null;
-        state.isAuthenticated = false;
-        localStorage.removeItem("access_token");
-      }
+      state.user = null;
+      state.isAuthenticated = false;
+      deleteCookie("access_token");
     },
   },
 });

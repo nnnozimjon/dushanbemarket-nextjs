@@ -21,6 +21,7 @@ import { Icon } from "@/components";
 import { toast } from "react-toastify";
 import { loginSuccess } from "@/store/slices";
 import { useDispatch } from "react-redux";
+import { setCookie } from "cookies-next";
 
 interface Props {
   opened: boolean;
@@ -134,16 +135,14 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
     }
 
     if (loginIsSuccess) {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("access_token", loginData.token);
-        const decryptedData = decryptToken(loginData.token);
-        toast.success(loginData?.message);
+      setCookie("access_token", loginData.token);
+      const decryptedData = decryptToken(loginData.token);
+      toast.success(loginData?.message);
 
-        setTimeout(() => {
-          dispatch(loginSuccess(decryptedData));
-          window.location.replace("/");
-        }, 1000);
-      }
+      setTimeout(() => {
+        dispatch(loginSuccess(decryptedData));
+        window.location.replace("/");
+      }, 1000);
     }
   }, [loginIsError, loginIsSuccess]);
 

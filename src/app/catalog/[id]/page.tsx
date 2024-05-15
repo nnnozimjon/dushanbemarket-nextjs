@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { Container, Flex, Image, SimpleGrid, Text } from "@mantine/core";
 import { Icon, ProductCard } from "@/components";
 import { useParams } from "next/navigation";
@@ -11,8 +12,12 @@ import {
 import empty from "@/assets/empty-cart.png";
 
 export default function CatalogPage() {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   const [pageSize, setPageSize] = useState(20);
   const [pageNumber] = useState(1);
+
   const urlSearchParams = new URLSearchParams(window.location.search);
   const category_name = urlSearchParams.get("name");
   const params = useParams();
@@ -40,6 +45,18 @@ export default function CatalogPage() {
     isLoading: isLoadingCt,
     error: errorCt,
   } = useGetAllWidgetsQuery(params?.id);
+
+  useEffect(() => {
+    if (isSuccessProducts) {
+      setProducts(dataProducts?.payload);
+    }
+  }, [isSuccessProducts, isErrorProducts]);
+
+  useEffect(() => {
+    if (isSuccessCt) {
+      setCategories(dataCt?.payload);
+    }
+  }, [isSuccessCt, isErrorCt]);
 
   return (
     <Container size={"xl"}>
@@ -93,7 +110,7 @@ export default function CatalogPage() {
                 ))}
 
               {!isLoadingProducts &&
-                dataProducts?.payload?.map((item: any, index: number) => (
+                products?.map((item: any, index: number) => (
                   <ProductCard
                     key={index}
                     id={item?.id}
@@ -110,7 +127,7 @@ export default function CatalogPage() {
           </div>
         </Flex>
 
-        {dataProducts?.payload?.length == 0 && (
+        {products?.length == 0 && (
           <Flex
             direction={"column"}
             gap={"lg"}

@@ -16,6 +16,11 @@ import { RootState } from "@/store/store";
 
 export default function Home() {
   const user = useSelector((state: RootState) => state.user.user);
+
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+
   const [pageSize, setPageSize] = useState(20);
   const [pageNumber] = useState(1);
 
@@ -58,6 +63,24 @@ export default function Home() {
     refetchProducts();
   }, [pageSize, pageNumber, refetchProducts]);
 
+  useEffect(() => {
+    if (isSuccessProducts) {
+      setProducts(dataProducts?.payload);
+    }
+  }, [isSuccessProducts, isErrorProducts]);
+
+  useEffect(() => {
+    if (isSuccessCt) {
+      setCategories(dataCt?.payload);
+    }
+  }, [isSuccessCt, isErrorCt]);
+
+  useEffect(() => {
+    if (isSuccessSubCt) {
+      setSubCategories(dataSubCt?.payload);
+    }
+  }, [isSuccessSubCt, isErrorSubCt]);
+
   return (
     <Container size={"xl"}>
       <div className={"p-2 md:px-[70px] md:py-10"}>
@@ -76,7 +99,7 @@ export default function Home() {
             ))}
 
           {!isLoadingCt &&
-            dataCt?.payload?.map((item: any, index: number) => (
+            categories?.map((item: any, index: number) => (
               <Link
                 className="no-underline text-[black]"
                 key={index}
@@ -101,19 +124,20 @@ export default function Home() {
           spacing="md"
           className="mb-4 md:mb-10"
         >
-          {isLoadingCarousel ||
-            (isErrorCarousel && (
-              <Skeleton
-                className="md:h-[500px] h-[250px]"
-                radius="md"
-                animate={false}
-              />
-            ))}
-          {!isLoadingCarousel && dataCarousel?.payload && (
-            <Image
-              src={dataCarousel?.payload[0]?.image}
-              alt={`Image`}
+          {isLoadingCarousel && (
+            <Skeleton
               className="md:h-[500px] h-[250px]"
+              radius="md"
+              animate={false}
+            />
+          )}
+
+          {/* carousel */}
+          {!isLoadingCarousel && dataCarousel?.payload && (
+            <div
+              // src={dataCarousel?.payload[0]?.image}
+              // alt={`Image`}
+              className="md:h-[500px] h-[250px] bg-[red]"
               style={{ borderRadius: "8px", width: "100%", objectFit: "cover" }}
             />
           )}
@@ -124,18 +148,17 @@ export default function Home() {
           gap={"lg"}
           className="md:flex-wrap overflow-scroll scrollbar-hide md:mb-10 mb-4"
         >
-          {isLoadingSubCt ||
-            (isErrorSubCt &&
-              Array.from({ length: 14 }, (_, index) => (
-                <Skeleton
-                  key={index}
-                  className="shrink-0 h-[80px] md:h-[100px] w-[80px] md:w-[100px] !m-0"
-                  circle
-                  mb={"xl"}
-                />
-              )))}
+          {isLoadingSubCt &&
+            Array.from({ length: 14 }, (_, index) => (
+              <Skeleton
+                key={index}
+                className="shrink-0 h-[80px] md:h-[100px] w-[80px] md:w-[100px] !m-0"
+                circle
+                mb={"xl"}
+              />
+            ))}
           {!isLoadingSubCt &&
-            dataSubCt?.payload?.map((item: any, index: number) => (
+            subCategories?.map((item: any, index: number) => (
               <Link
                 className="no-underline text-[black]"
                 key={index}
@@ -155,28 +178,27 @@ export default function Home() {
             ))}
         </Flex>
 
-        <h1>Новинки</h1>
+       {!!products?.length && <h1>Новинки</h1>}
         <SimpleGrid
           cols={{ base: 2, lg: 5, md: 4, sm: 3 }}
           spacing={{ base: 10, sm: "xl" }}
           verticalSpacing={{ base: "md", sm: "xl" }}
         >
-          {isLoadingProducts ||
-            (isErrorProducts &&
-              Array.from({ length: 10 }, (_, index) => (
-                <ProductCard
-                  key={index}
-                  id={0}
-                  img={""}
-                  name={""}
-                  price={0}
-                  created_by={0}
-                  storeName=""
-                />
-              )))}
+          {isLoadingProducts &&
+            Array.from({ length: 10 }, (_, index) => (
+              <ProductCard
+                key={index}
+                id={0}
+                img={""}
+                name={""}
+                price={0}
+                created_by={0}
+                storeName=""
+              />
+            ))}
 
           {!isLoadingProducts &&
-            dataProducts?.payload?.map((item: any, index: number) => (
+            products?.map((item: any, index: number) => (
               <ProductCard
                 key={index}
                 id={item?.id}
