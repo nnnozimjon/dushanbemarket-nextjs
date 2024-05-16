@@ -7,6 +7,7 @@ import { MantineProvider } from "@mantine/core";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import '@mantine/carousel/styles.css';
 import AppHeader from "@/components/header/header";
 import AppFooter from "@/components/footer/footer";
 

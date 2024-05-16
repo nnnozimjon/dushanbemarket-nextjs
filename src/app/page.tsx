@@ -1,7 +1,7 @@
 "use client";
 
 import { Image } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useGetAllFrontProductsByPaginationQuery,
   useGetAllWidgetsQuery,
@@ -14,12 +14,39 @@ import Link from "next/link";
 import { ProductCard } from "@/components";
 import { RootState } from "@/store/store";
 
+import { Carousel } from "@mantine/carousel";
+import Autoplay from "embla-carousel-autoplay";
+
+import banner from "@/assets/cream-simple.png";
+import fruits from "@/assets/fruits.png";
+import pink from "@/assets/pink-purple.png";
+import pizza from "@/assets/pizza-ads.png";
+import newSquare from "@/assets/new-square-ads.png";
+
+interface CarouselBanners {
+  id: number;
+  image: string;
+  category_id: number;
+  name: string;
+  ct: {
+    name: string;
+  };
+}
+
 export default function Home() {
   const user = useSelector((state: RootState) => state.user.user);
+  const autoplayCategories = useRef(Autoplay({ delay: 1000 }));
+  const autoplayBannerAds = useRef(Autoplay({ delay: 4000 }));
+  const autoplaySplitAds = useRef(Autoplay({ delay: 3000 }));
+  const autoplayBannerAds2 = useRef(Autoplay({ delay: 4000 }));
+  const autoplaySubCategories = useRef(Autoplay({ delay: 1000 }));
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
+
+  const [bannerCarousel, setBannerCarousel] = useState<CarouselBanners[]>([]);
+  const [splitCarousel, setSplitCarousel] = useState<CarouselBanners[]>([]);
 
   const [pageSize, setPageSize] = useState(20);
   const [pageNumber] = useState(1);
@@ -49,6 +76,14 @@ export default function Home() {
   } = useGetAllWidgetsQuery("home-carousel");
 
   const {
+    data: dataSplitCarousel,
+    isError: isErrorSplitCarousel,
+    isSuccess: isSuccessSplitCarousel,
+    isLoading: isLoadingSplitCarousel,
+    error: errorSplitCarousel,
+  } = useGetAllWidgetsQuery("home-split-carousel");
+
+  const {
     data: dataProducts,
     isError: isErrorProducts,
     isSuccess: isSuccessProducts,
@@ -63,61 +98,98 @@ export default function Home() {
     refetchProducts();
   }, [pageSize, pageNumber, refetchProducts]);
 
+  // products
   useEffect(() => {
     if (isSuccessProducts) {
       setProducts(dataProducts?.payload);
     }
   }, [isSuccessProducts, isErrorProducts]);
 
+  // categories
   useEffect(() => {
     if (isSuccessCt) {
       setCategories(dataCt?.payload);
     }
   }, [isSuccessCt, isErrorCt]);
 
+  // sub-categories
   useEffect(() => {
     if (isSuccessSubCt) {
       setSubCategories(dataSubCt?.payload);
     }
   }, [isSuccessSubCt, isErrorSubCt]);
 
+  // carousel
+  useEffect(() => {
+    if (isSuccessCarousel) {
+      setBannerCarousel(dataCarousel?.payload);
+    }
+  }, [isSuccessCarousel, isErrorCarousel]);
+
+  // split-carousel
+  useEffect(() => {
+    if (isSuccessSplitCarousel) {
+      setSplitCarousel(dataSplitCarousel?.payload);
+    }
+  }, [isSuccessSplitCarousel, isErrorSplitCarousel]);
+
+  function splitArray(array: CarouselBanners[]) {
+    const midpoint = Math.floor(array.length / 2);
+    const firstPart = array.slice(0, midpoint);
+    const secondPart = array.slice(midpoint);
+    return [firstPart, secondPart];
+  }
+
+  const [firstBannerPart, secondBannerPart] = splitArray(bannerCarousel);
+
   return (
     <Container size={"xl"}>
       <div className={"p-2 md:px-[70px] md:py-10"}>
-        <Flex
-          gap={"lg"}
-          className="md:flex-wrap overflow-scroll scrollbar-hide md:mb-10 mb-4"
+        {/*  */}
+        <Carousel
+          withControls={false}
+          align={"start"}
+          slideSize={{ base: "11,1%" }}
+          slideGap={{ base: 0, sm: "md" }}
+          loop
+          plugins={[autoplayCategories.current]}
+          onMouseEnter={autoplayCategories.current.stop}
+          onMouseLeave={autoplayCategories.current.reset}
         >
           {isLoadingCt &&
             Array.from({ length: 14 }, (_, index) => (
-              <Skeleton
-                key={index}
-                className="shrink-0 h-[80px] md:h-[100px] w-[80px] md:w-[100px] !m-0"
-                circle
-                mb={"xl"}
-              />
+              <Carousel.Slide key={index}>
+                <Skeleton
+                  className="shrink-0 h-[80px] md:h-[100px] w-[80px] md:w-[100px] !m-0"
+                  circle
+                  mb={"xl"}
+                />
+              </Carousel.Slide>
             ))}
 
           {!isLoadingCt &&
             categories?.map((item: any, index: number) => (
-              <Link
-                className="no-underline text-[black]"
-                key={index}
-                href={`/category/${item?.category_id}?name=${item?.ct?.name}`}
-              >
-                <Flex direction={"column"} align={"center"}>
-                  <Image
-                    src={item?.image}
-                    className="shrink-0 border-[3px] border-green border-solid p-1 h-[80px] md:h-[100px] w-[80px] md:w-[100px] !m-0 rounded-full"
-                    alt=""
-                  />
-                  <p className="text-sm md:text-base text-center w-[100px]">
-                    {item?.name}
-                  </p>
-                </Flex>
-              </Link>
+              <Carousel.Slide key={index}>
+                <Link
+                  className="no-underline text-[black]"
+                  key={index}
+                  href={`/category/${item?.category_id}?name=${item?.ct?.name}`}
+                >
+                  <Flex direction={"column"} align={"center"}>
+                    <Image
+                      src={item?.image}
+                      className="shrink-0 border-[3px] border-green border-solid p-1 h-[80px] md:h-[100px] w-[80px] md:w-[100px] !m-0 rounded-full"
+                      alt=""
+                    />
+                    <p className="text-sm md:text-base text-center w-[100px]">
+                      {item?.name}
+                    </p>
+                  </Flex>
+                </Link>
+              </Carousel.Slide>
             ))}
-        </Flex>
+        </Carousel>
+        <br />
 
         <SimpleGrid
           cols={{ base: 1, sm: 1 }}
@@ -131,54 +203,139 @@ export default function Home() {
               animate={false}
             />
           )}
-
-          {/* carousel */}
-          {!isLoadingCarousel && dataCarousel?.payload && (
-            <div
-              // src={dataCarousel?.payload[0]?.image}
-              // alt={`Image`}
-              className="md:h-[500px] h-[250px] bg-[red]"
-              style={{ borderRadius: "8px", width: "100%", objectFit: "cover" }}
+          <Carousel
+            withControls={false}
+            plugins={[autoplayBannerAds.current]}
+            onMouseEnter={autoplayBannerAds.current.stop}
+            onMouseLeave={autoplayBannerAds.current.reset}
+          >
+            {!isLoadingCarousel &&
+              firstBannerPart?.map((item: any, index: number) => (
+                <Carousel.Slide key={index}>
+                  <Image
+                    src={item.image}
+                    alt={`ads`}
+                    className="bg-[red]"
+                    style={{
+                      borderRadius: "8px",
+                      width: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </Carousel.Slide>
+              ))}
+          </Carousel>
+        </SimpleGrid>
+        <SimpleGrid
+          cols={{ base: 1, sm: 1 }}
+          spacing="md"
+          className="mb-4 md:mb-10"
+        >
+          {isLoadingCarousel && (
+            <Skeleton
+              className="md:h-[500px] h-[250px]"
+              radius="md"
+              animate={false}
             />
           )}
+          <Carousel
+            withControls={false}
+            plugins={[autoplayBannerAds2.current]}
+            onMouseEnter={autoplayBannerAds2.current.stop}
+            onMouseLeave={autoplayBannerAds2.current.reset}
+          >
+            {!isLoadingCarousel &&
+              secondBannerPart?.map((item: any, index: number) => (
+                <Carousel.Slide key={index}>
+                  <Image
+                    src={item.image}
+                    alt={`ads`}
+                    className="bg-[red]"
+                    style={{
+                      borderRadius: "8px",
+                      width: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </Carousel.Slide>
+              ))}
+          </Carousel>
         </SimpleGrid>
 
-        <h1>Категории</h1>
-        <Flex
-          gap={"lg"}
-          className="md:flex-wrap overflow-scroll scrollbar-hide md:mb-10 mb-4"
+        {!isLoadingSplitCarousel && splitCarousel?.length !==0 &&  (
+          <Carousel
+            withControls={false}
+            withIndicators
+            height={200}
+            slideSize={{ base: "100%", md: "33%" }}
+            slideGap={{ base: 0, sm: "md" }}
+            loop
+            align={"start"}
+            plugins={[autoplaySplitAds.current]}
+            onMouseEnter={autoplaySplitAds.current.stop}
+            onMouseLeave={autoplaySplitAds.current.reset}
+          >
+            {splitCarousel?.map((item: any, index: number) => (
+              <Carousel.Slide key={index}>
+                <Image
+                  src={item?.image}
+                  alt={`ads`}
+                  className="h-[200px]"
+                  style={{
+                    borderRadius: "8px",
+                    width: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </Carousel.Slide>
+            ))}
+          </Carousel>
+        )}
+        <br />
+
+        <Carousel
+          withControls={false}
+          align={"start"}
+          slideSize={{ base: "11,1%" }}
+          slideGap={{ base: 0, sm: "md" }}
+          loop
+          plugins={[autoplaySubCategories.current]}
+          onMouseEnter={autoplaySubCategories.current.stop}
+          onMouseLeave={autoplaySubCategories.current.reset}
         >
           {isLoadingSubCt &&
             Array.from({ length: 14 }, (_, index) => (
-              <Skeleton
-                key={index}
-                className="shrink-0 h-[80px] md:h-[100px] w-[80px] md:w-[100px] !m-0"
-                circle
-                mb={"xl"}
-              />
+              <Carousel.Slide key={index}>
+                <Skeleton
+                  className="shrink-0 h-[80px] md:h-[100px] w-[80px] md:w-[100px] !m-0"
+                  circle
+                  mb={"xl"}
+                />
+              </Carousel.Slide>
             ))}
           {!isLoadingSubCt &&
             subCategories?.map((item: any, index: number) => (
-              <Link
-                className="no-underline text-[black]"
-                key={index}
-                href={`/catalog/${item?.category_id}?name=${item?.ct?.name}`}
-              >
-                <Flex key={index} direction={"column"} align={"center"}>
-                  <Image
-                    className="border-green border-solid  shrink-0 h-[80px] p-1 md:h-[100px] w-[80px] md:w-[100px] !m-0 rounded-full"
-                    src={item?.image}
-                    alt=""
-                  />
-                  <p className="text-sm md:text-base text-center w-[100px]">
-                    {item?.name}
-                  </p>
-                </Flex>
-              </Link>
+              <Carousel.Slide key={index}>
+                <Link
+                  className="no-underline text-[black]"
+                  href={`/catalog/${item?.category_id}?name=${item?.ct?.name}`}
+                >
+                  <Flex key={index} direction={"column"} align={"center"}>
+                    <Image
+                      className="border-green border-solid  shrink-0 h-[80px] p-1 md:h-[100px] w-[80px] md:w-[100px] !m-0 rounded-full"
+                      src={item?.image}
+                      alt=""
+                    />
+                    <p className="text-sm md:text-base text-center w-[100px]">
+                      {item?.name}
+                    </p>
+                  </Flex>
+                </Link>
+              </Carousel.Slide>
             ))}
-        </Flex>
+        </Carousel>
 
-       {!!products?.length && <h1>Новинки</h1>}
+        {!!products?.length && <h1>Новинки</h1>}
         <SimpleGrid
           cols={{ base: 2, lg: 5, md: 4, sm: 3 }}
           spacing={{ base: 10, sm: "xl" }}
