@@ -17,12 +17,6 @@ import { RootState } from "@/store/store";
 import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
-import banner from "@/assets/cream-simple.png";
-import fruits from "@/assets/fruits.png";
-import pink from "@/assets/pink-purple.png";
-import pizza from "@/assets/pizza-ads.png";
-import newSquare from "@/assets/new-square-ads.png";
-
 interface CarouselBanners {
   id: number;
   image: string;
@@ -205,6 +199,7 @@ export default function Home() {
           )}
           <Carousel
             withControls={false}
+            loop
             plugins={[autoplayBannerAds.current]}
             onMouseEnter={autoplayBannerAds.current.stop}
             onMouseLeave={autoplayBannerAds.current.reset}
@@ -241,6 +236,7 @@ export default function Home() {
           <Carousel
             withControls={false}
             plugins={[autoplayBannerAds2.current]}
+            loop
             onMouseEnter={autoplayBannerAds2.current.stop}
             onMouseLeave={autoplayBannerAds2.current.reset}
           >
