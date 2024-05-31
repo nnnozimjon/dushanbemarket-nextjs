@@ -53,6 +53,8 @@ export default function CatalogPage() {
     }
   }, [isSuccessProducts, isErrorProducts]);
 
+  console.log(dataCt);
+
   useEffect(() => {
     if (isSuccessCt) {
       setCategories(dataCt?.payload);
