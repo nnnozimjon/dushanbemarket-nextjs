@@ -472,6 +472,7 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
       <LoadingOverlay
         visible={otpIsLoading}
         zIndex={1000}
+        className="h-screen w-screen fixed overflow-hidden scrollbar-hide"
         overlayProps={{ radius: "sm", blur: 2 }}
         loaderProps={{ color: "green", type: "oval" }}
       />

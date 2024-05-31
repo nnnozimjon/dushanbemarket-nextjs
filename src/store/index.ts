@@ -15,13 +15,4 @@ export {
 
 export { useGetAllWidgetsQuery } from "./api/frontWidgetsApi";
 
-export {
-  useCreateProductMutation,
-  useGetAllProductQuery,
-  useGetByIdQuery,
-  useDeleteProductByIdMutation
-} from "./api/merchantProductApi";
-
-export { useGetAllCategoryQuery } from "./api/merchantCategoryApi";
-
 export { useOrderProductsMutation, useGetAllOrdersQuery } from './api/frontOrderApi'

@@ -1,13 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Flex,
-  Image,
-  SimpleGrid,
-  Text,
-} from "@mantine/core";
+import { Container, Flex, Image, SimpleGrid, Text } from "@mantine/core";
 import { ProductCard } from "@/components";
 import {
   useGetAllFrontProductsByPaginationQuery,
@@ -19,8 +13,8 @@ import empty from "@/assets/empty-cart.png";
 import { useParams } from "next/navigation";
 
 export default function CategoryPage() {
-  const [products, setProducts] = useState([])
-  const [categories, setCategories] = useState([])
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const [pageSize, setPageSize] = useState(20);
   const [pageNumber] = useState(1);
@@ -52,23 +46,43 @@ export default function CategoryPage() {
     error: errorCt,
   } = useGetAllWidgetsQuery(params?.id);
 
-
   useEffect(() => {
     if (isSuccessProducts) {
-      setProducts(dataProducts?.payload)
+      setProducts(dataProducts?.payload);
     }
-
-  }, [isSuccessProducts, isErrorProducts])
+  }, [isSuccessProducts, isErrorProducts]);
 
   useEffect(() => {
     if (isSuccessCt) {
-      setCategories(dataCt?.payload)
+      setCategories(dataCt?.payload);
     }
-
-  }, [isSuccessCt, isErrorCt])
+  }, [isSuccessCt, isErrorCt]);
 
   return (
     <Container size={"xl"}>
+      {/* <Head>
+        <title>
+          Мой профиль - Душанбе Маркет | Управляйте своим аккаунтом и
+          настройками здесь{" "}
+        </title>
+        <meta
+          name="description"
+          content="Войдите в свой профиль на Душанбе Маркет, чтобы управлять вашими данными, настройками аккаунта и просматривать историю заказов. Удобство и безопасность в одном месте!"
+        />
+        <meta
+          name="keywords"
+          content="профиль, аккаунт, настройки, история заказов, Душанбе Маркет, управление данными, безопасность"
+        />
+
+        <meta property="og:title" content="Мой профиль на Душанбе Маркет" />
+        <meta
+          property="og:description"
+          content="Войдите в свой профиль на Душанбе Маркет, чтобы управлять вашими данными, настройками аккаунта и просматривать историю заказов. Удобство и безопасность в одном месте!"
+        />
+        <meta property="og:image" content="./logo.png" />
+        <meta property="og:url" content="https://dushanbemarket.com/profile" />
+        <meta property="og:type" content="website" />
+      </Head> */}
       <div className="p-2 md:px-[70px] md:py-10">
         {categories?.length > 0 && (
           <h1 className="text-[18px] md:text-[2em] mb-2">
@@ -109,7 +123,6 @@ export default function CategoryPage() {
           <Text className="text-[rgba(0,0,0,0.3)]">0 товар</Text>
         </Flex>
         <Flex className="py-[30px]" gap={"lg"}>
-            
           {/* <div className='w-[350px] p-2 h-screen hidden md:block'>
           <Filter />
         </div> */}
@@ -143,7 +156,8 @@ export default function CategoryPage() {
                     price={item?.price}
                     created_by={item?.created_by}
                     storeName={item?.storeName}
-                    sizes={item?.sizes} colors={item?.colors}
+                    sizes={item?.sizes}
+                    colors={item?.colors}
                   />
                 ))}
             </SimpleGrid>

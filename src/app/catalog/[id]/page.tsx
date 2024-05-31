@@ -10,6 +10,7 @@ import {
   useGetAllWidgetsQuery,
 } from "@/store";
 import empty from "@/assets/empty-cart.png";
+import Head from "next/head";
 
 export default function CatalogPage() {
   const [products, setProducts] = useState([]);
@@ -60,6 +61,29 @@ export default function CatalogPage() {
 
   return (
     <Container size={"xl"}>
+      {/* <Head>
+        <title>
+          Мой профиль - Душанбе Маркет | Управляйте своим аккаунтом и
+          настройками здесь{" "}
+        </title>
+        <meta
+          name="description"
+          content="Войдите в свой профиль на Душанбе Маркет, чтобы управлять вашими данными, настройками аккаунта и просматривать историю заказов. Удобство и безопасность в одном месте!"
+        />
+        <meta
+          name="keywords"
+          content="профиль, аккаунт, настройки, история заказов, Душанбе Маркет, управление данными, безопасность"
+        />
+
+        <meta property="og:title" content="Мой профиль на Душанбе Маркет" />
+        <meta
+          property="og:description"
+          content="Войдите в свой профиль на Душанбе Маркет, чтобы управлять вашими данными, настройками аккаунта и просматривать историю заказов. Удобство и безопасность в одном месте!"
+        />
+        <meta property="og:image" content="./logo.png" />
+        <meta property="og:url" content="https://dushanbemarket.com/profile" />
+        <meta property="og:type" content="website" />
+      </Head> */}
       <div className="md:py-10">
         {/* <h1 className="text-[18px] md:text-[2em] mb-2">Популярные категории</h1>
         <SimpleGrid

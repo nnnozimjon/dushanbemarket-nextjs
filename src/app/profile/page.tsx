@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices";
 import { formatPhoneNumber } from "@/utils";
 import { RootState } from "@/store/store";
+import Head from "next/head";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
@@ -60,6 +61,29 @@ export default function ProfilePage() {
 
   return (
     <Container size={"xl"}>
+      <Head>
+        <title>
+          Мой профиль - Душанбе Маркет | Управляйте своим аккаунтом и
+          настройками здесь{" "}
+        </title>
+        <meta
+          name="description"
+          content="Войдите в свой профиль на Душанбе Маркет, чтобы управлять вашими данными, настройками аккаунта и просматривать историю заказов. Удобство и безопасность в одном месте!"
+        />
+        <meta
+          name="keywords"
+          content="профиль, аккаунт, настройки, история заказов, Душанбе Маркет, управление данными, безопасность"
+        />
+
+        <meta property="og:title" content="Мой профиль на Душанбе Маркет" />
+        <meta
+          property="og:description"
+          content="Войдите в свой профиль на Душанбе Маркет, чтобы управлять вашими данными, настройками аккаунта и просматривать историю заказов. Удобство и безопасность в одном месте!"
+        />
+        <meta property="og:image" content="./logo.png" />
+        <meta property="og:url" content="https://dushanbemarket.com/profile" />
+        <meta property="og:type" content="website" />
+      </Head>
       <Flex
         direction={"column"}
         gap={"lg"}
@@ -180,7 +204,7 @@ export default function ProfilePage() {
         )}
 
         {!!products?.length && <h1>Новинки</h1>}
-        
+
         <SimpleGrid
           cols={{ base: 2, lg: 5, md: 4, sm: 3 }}
           spacing={{ base: 10, sm: "xl" }}

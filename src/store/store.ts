@@ -1,6 +1,6 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 import { cartReducer, locationReducer, userReducer, wishlistReducer } from './slices'
-import { authApi, frontOrderApi, frontProductApi, frontWidgetApi, merchantCategoryApi, merchantProductApi } from './api'
+import { authApi, frontOrderApi, frontProductApi, frontWidgetApi } from './api'
 
 export const store = configureStore({
     reducer: {

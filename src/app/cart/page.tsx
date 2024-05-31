@@ -22,6 +22,7 @@ import {
 import { RootState } from "@/store/store";
 import { colors } from "@/utils/color";
 import { toast } from "react-toastify";
+import Head from "next/head";
 
 interface Color {
   label: string;
@@ -78,23 +79,48 @@ export default function CartPage() {
     const products = cart?.products;
 
     for (let i = 0; i < products.length; i++) {
-        const product = products[i];
-        // Check if the product has colors
-        if (product.colors && !product.selectedOptions?.color) {
-            return toast.info('Пожалуйста, выберите цвет товара');
-        }
+      const product = products[i];
+      // Check if the product has colors
+      if (product.colors && !product.selectedOptions?.color) {
+        return toast.info("Пожалуйста, выберите цвет товара");
+      }
 
-        // Check if the product has sizes
-        if (product.sizes && !product.selectedOptions?.size) {
-            return toast.info('Пожалуйста, выберите размер товара');
-        }
+      // Check if the product has sizes
+      if (product.sizes && !product.selectedOptions?.size) {
+        return toast.info("Пожалуйста, выберите размер товара");
+      }
     }
 
-    window.location.replace("/order")
+    window.location.replace("/order");
   };
 
   return (
     <Container size={"xl"}>
+      <Head>
+        <title>
+         Корзина покупок - Душанбе Маркет | Проверьте и оформите свои покупки здесь
+        </title>
+        <meta
+          name="description"
+          content="Перейдите в корзину на Душанбе Маркет, чтобы просмотреть и отредактировать выбранные вами товары перед оформлением покупки. Быстро и удобно!"
+        />
+        <meta
+          name="keywords"
+          content="корзина покупок, оформление заказа, Душанбе Маркет, проверка заказа, добавление товаров"
+        />
+
+        <meta
+          property="og:title"
+          content="Ваша корзина на Душанбе Маркет"
+        />
+        <meta
+          property="og:description"
+          content="Перейдите в корзину на Душанбе Маркет, чтобы просмотреть и редактировать выбранные вами товары перед оформлением заказа. Управляйте вашими покупками легко и быстро!"
+        />
+        <meta property="og:image" content="./logo.png" />
+        <meta property="og:url" content="https://dushanbemarket.com/cart" />
+        <meta property="og:type" content="website" />
+      </Head>
       <div className="my-4 md:py-10 flex lg:flex-row flex-col gap-5">
         <div className="w-full">
           <Flex gap={"md"} align={"center"}>

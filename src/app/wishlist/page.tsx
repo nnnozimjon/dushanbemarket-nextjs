@@ -1,15 +1,40 @@
 "use client";
+
 import React from "react";
 import { Icon, ProductCard } from "@/components";
 import { Container, Flex, SimpleGrid, Text } from "@mantine/core";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import Head from "next/head";
 
 export default function WishlistPage() {
   const wishlist = useSelector((state: RootState) => state?.wishlist);
 
   return (
     <Container size={"xl"}>
+      <Head>
+        <title>Мой список желаемого - Сохраните свои любимые товары здесь</title>
+        <meta
+          name="description"
+          content="Создайте список желаемого на Душанбе Маркет и сохраните там все товары, которые хотели бы приобрести в будущем. Удобно, просто и всегда под рукой!"
+        />
+        <meta
+          name="keywords"
+          content="список желаемого, сохранить товары, покупки в будущем, Душанбе Маркет, удобство покупок"
+        />
+
+        <meta
+          property="og:title"
+          content="Мой список желаемого на Душанбе Маркет"
+        />
+        <meta
+          property="og:description"
+          content="Сохраняйте свои любимые товары на Душанбе Маркет в списке желаемого и легко найдите их в будущем. Управляйте своими покупками удобно и эффективно!"
+        />
+        <meta property="og:image" content="./logo.png" />
+        <meta property="og:url" content="https://dushanbemarket.com/wishlist" />
+        <meta property="og:type" content="website" />
+      </Head>
       <div className="my-4 md:py-10 flex lg:flex-row flex-col gap-5">
         <div className="w-full">
           <Flex gap={"md"} align={"center"}>

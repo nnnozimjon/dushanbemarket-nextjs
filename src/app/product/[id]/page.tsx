@@ -32,6 +32,7 @@ import { ObjectToParams } from "@/utils/objectToParams";
 import { colors } from "@/utils/color";
 import { toast } from "react-toastify";
 import { RootState } from "@/store/store";
+import Head from "next/head";
 
 interface Color {
   label: string;
@@ -134,6 +135,35 @@ export default function ProductPage() {
 
   return (
     <Container size={"xl"} className="p-2 md:py-10 ">
+      <Head>
+        <title>
+          {product?.name} - Купить онлайн на Душанбе Маркет | Лучшие цены и
+          широкий ассортимент
+        </title>
+        <meta
+          name="description"
+          content={`Покупайте ${product?.name} онлайн на Душанбе Маркет. Широкий выбор, отличные цены и удобная доставка. Не упустите возможность приобрести ${product?.name} прямо сейчас!`}
+        />
+        <meta
+          name="keywords"
+          content={`${product?.name}, купить онлайн, Душанбе Маркет, цена, доставка`}
+        />
+
+        <meta
+          property="og:title"
+          content={`${product?.name} - Купить онлайн на Душанбе Маркет`}
+        />
+        <meta
+          property="og:description"
+          content={`Покупайте ${product?.name} онлайн на Душанбе Маркет. Широкий выбор, отличные цены и удобная доставка. Не упустите возможность приобрести ${product?.name} прямо сейчас!`}
+        />
+        <meta property="og:image" content={images?.[0]} />
+        <meta
+          property="og:url"
+          content={`https://dushanbemarket.com/product/${product?.id}`}
+        />
+        <meta property="og:type" content="website" />
+      </Head>
       <Flex
         gap={"lg"}
         justify={"space-between"}
@@ -311,8 +341,9 @@ export default function ProductPage() {
         ))}
       </SimpleGrid>
       <LoadingOverlay
-        visible={isLoading}
+        visible={isLoading && isLoadingProducts}
         zIndex={1000}
+        className="h-screen w-screen fixed overflow-hidden scrollbar-hide"
         overlayProps={{ radius: "sm", blur: 2 }}
         loaderProps={{ color: "green", type: "oval" }}
       />

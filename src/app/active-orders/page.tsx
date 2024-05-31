@@ -11,6 +11,7 @@ import {
   Text,
 } from "@mantine/core";
 import { useGetAllOrdersQuery } from "@/store";
+import Head from "next/head";
 
 export default function ActiveOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -29,6 +30,26 @@ export default function ActiveOrdersPage() {
 
   return (
     <Container size={"xl"}>
+      <Head>
+        <title>
+          Активные заказы - Душанбе Маркет | Отслеживайте свои текущие покупки и
+          заказы
+        </title>
+        <meta
+          name="description"
+          content="Перейдите на страницу активных заказов на Душанбе Маркет, чтобы отслеживать состояние и доставку ваших текущих покупок. Всегда будьте в курсе!"
+        />
+        <meta
+          name="keywords"
+          content="активные заказы, отслеживание заказов, Душанбе Маркет, текущие покупки, состояние заказов, доставка"
+        />
+
+        <meta property="og:title" content="Активные заказы на Душанбе Маркет" />
+        <meta
+          property="og:description"
+          content="Отслеживайте состояние и доставку ваших текущих покупок на Душанбе Маркет. Перейдите на страницу активных заказов и оставайтесь в курсе всего происходящего!"
+        />
+      </Head>
       <div className="my-4 md:py-10 flex lg:flex-row flex-col gap-5">
         <div className="w-full">
           <Flex gap={"md"} align={"center"}>
@@ -83,6 +104,7 @@ export default function ActiveOrdersPage() {
       </div>
       <LoadingOverlay
         visible={isLoading}
+        className="h-screen w-screen fixed overflow-hidden scrollbar-hide"
         zIndex={1000}
         overlayProps={{ radius: "sm", blur: 2 }}
         loaderProps={{ color: "green", type: "oval" }}

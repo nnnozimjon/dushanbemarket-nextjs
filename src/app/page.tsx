@@ -16,6 +16,7 @@ import { RootState } from "@/store/store";
 
 import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import Head from "next/head";
 
 interface CarouselBanners {
   id: number;
@@ -138,6 +139,29 @@ export default function Home() {
 
   return (
     <Container size={"xl"}>
+      <Head>
+        <title>Душанбе Маркет - Простые и Удобные Покупки</title>
+        <meta
+          name="description"
+          content="Душанбе Маркет: Ваш лучший выбор для онлайн шопинга в Таджикистане. Широкий ассортимент товаров по выгодным ценам. Присоединяйтесь к нам сегодня!"
+        />
+        <meta
+          name="keywords"
+          content="Душанбе Маркет, онлайн маркетплейс, Таджикистан, покупки, онлайн шопинг, товары, услуги"
+        />
+
+        <meta
+          property="og:title"
+          content="Душанбе Маркет - Простые и Удобные Покупки"
+        />
+        <meta
+          property="og:description"
+          content="Душанбе Маркет: Ваш лучший выбор для онлайн шопинга в Таджикистане. Широкий ассортимент товаров по выгодным ценам. Присоединяйтесь к нам сегодня!"
+        />
+        <meta property="og:image" content="./logo.png" />
+        <meta property="og:url" content="https://dushanbemarket.com" />
+        <meta property="og:type" content="website" />
+      </Head>
       <div className={"p-2 md:px-[70px] md:py-10"}>
         {/*  */}
         <Carousel
@@ -258,7 +282,7 @@ export default function Home() {
           </Carousel>
         </SimpleGrid>
 
-        {!isLoadingSplitCarousel && splitCarousel?.length !==0 &&  (
+        {!isLoadingSplitCarousel && splitCarousel?.length !== 0 && (
           <Carousel
             withControls={false}
             withIndicators

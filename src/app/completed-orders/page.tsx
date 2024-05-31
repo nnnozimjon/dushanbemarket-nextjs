@@ -10,6 +10,7 @@ import {
 } from "@mantine/core";
 import ActiveOrderCard from "@/components/active-orders-card/active-orders-card";
 import { useGetAllOrdersQuery } from "@/store";
+import Head from "next/head";
 
 export default function CompletedOrdersPage() {
   const [completedOrders, setCompletedOrders] = useState([]);
@@ -28,6 +29,29 @@ export default function CompletedOrdersPage() {
 
   return (
     <Container size={"xl"}>
+      <Head>
+        <title>
+          Завершенные заказы - Душанбе Маркет | Просмотрите свою историю покупок
+          и заказов
+        </title>
+        <meta
+          name="description"
+          content="Перейдите на страницу завершенных заказов на Душанбе Маркет, чтобы просмотреть свою полную историю покупок, подтвержденные и доставленные заказы. Всегда имейте представление о своих покупках!"
+        />
+        <meta
+          name="keywords"
+          content="завершенные заказы, история покупок, Душанбе Маркет, подтвержденные заказы, доставленные заказы"
+        />
+
+        <meta
+          property="og:title"
+          content="Завершенные заказы на Душанбе Маркет"
+        />
+        <meta
+          property="og:description"
+          content="Просмотрите свою полную историю покупок на Душанбе Маркет, включая все подтвержденные и доставленные заказы. Легко отслеживайте свои покупки и оставайтесь в курсе!"
+        />
+      </Head>
       <div className="my-4 md:py-10 flex lg:flex-row flex-col gap-5">
         <div className="w-full">
           <Flex gap={"md"} align={"center"}>
@@ -82,6 +106,7 @@ export default function CompletedOrdersPage() {
       </div>
       <LoadingOverlay
         visible={isLoading}
+        className="h-screen w-screen fixed overflow-hidden scrollbar-hide"
         zIndex={1000}
         overlayProps={{ radius: "sm", blur: 2 }}
         loaderProps={{ color: "green", type: "oval" }}

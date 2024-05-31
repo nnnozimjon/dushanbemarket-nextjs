@@ -20,6 +20,7 @@ import { RootState } from "@/store/store";
 import { useOrderProductsMutation } from "@/store";
 import { toast } from "react-toastify";
 import { clearFullyCart } from "@/store/slices";
+import Head from "next/head";
 
 export default function OrderPage() {
   const [order, setOrder] = useState({
@@ -102,6 +103,29 @@ export default function OrderPage() {
 
   return (
     <Container size={"xl"}>
+      <Head>
+        <title>
+          Оформление заказа - Душанбе Маркет | Подтвердите свои покупки и
+          выберите способ доставки
+        </title>
+        <meta
+          name="description"
+          content="Перейдите на страницу оформления заказа на Душанбе Маркет, чтобы подтвердить свои покупки, выбрать удобный способ доставки и завершить покупку. Просто и быстро!"
+        />
+        <meta
+          name="keywords"
+          content="оформление заказа, подтверждение покупок, способы доставки, Душанбе Маркет, покупка товаров"
+        />
+
+        <meta
+          property="og:title"
+          content="Оформление заказа на Душанбе Маркет"
+        />
+        <meta
+          property="og:description"
+          content="Подтвердите свои покупки, выберите удобный способ доставки и завершите заказ на Душанбе Маркет. Все просто и удобно для вашего комфорта!"
+        />
+      </Head>
       <div className="my-4 md:py-10 flex lg:flex-row flex-col gap-5">
         <div className="w-full">
           <Flex gap={"md"} align={"center"}>
@@ -292,6 +316,7 @@ export default function OrderPage() {
       <LoadingOverlay
         visible={isLoading}
         zIndex={1000}
+        className="h-screen w-screen fixed overflow-hidden scrollbar-hide"
         overlayProps={{ radius: "sm", blur: 2 }}
         loaderProps={{ color: "green", type: "oval" }}
       />
