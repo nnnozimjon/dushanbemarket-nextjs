@@ -11,6 +11,7 @@ export {
 export {
   useGetProductByIdQuery,
   useGetAllFrontProductsByPaginationQuery,
+  useProductSearchMutation
 } from "./api/frontProductApi";
 
 export { useGetAllWidgetsQuery } from "./api/frontWidgetsApi";

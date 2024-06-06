@@ -1,50 +1,86 @@
 "use client";
 
-import { Container, Autocomplete, Flex, Text, Indicator } from "@mantine/core";
+import {
+  Container,
+  Autocomplete,
+  Flex,
+  Text,
+  Indicator,
+  Group,
+  AutocompleteProps,
+} from "@mantine/core";
 import classes from "./styles.module.css";
 import { AppLogo, Icon } from "..";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { ObjectToParams } from "@/utils/objectToParams";
-import { useGetAllFrontProductsByPaginationQuery } from "@/store";
+import { useProductSearchMutation } from "@/store";
 import { useEffect, useState } from "react";
 import { RootState } from "@/store/store";
 
 export default function AppHeader() {
-  const [searchData, setSearchData] = useState<{ name: string, id: string }[]>([])
-  const [search, setSearch] = useState<string>('')
+  const [searchData, setSearchData] = useState<{ name: string; id: string }[]>(
+    []
+  );
+  const [search, setSearch] = useState<string>("");
 
   const user = useSelector((state: RootState) => state?.user);
   const cart = useSelector((state: RootState) => state?.cart);
   const wishlist = useSelector((state: RootState) => state?.wishlist);
 
-  const {
-    data: dataProducts,
-    isError: isErrorProducts,
-    isSuccess: isSuccessProducts,
-    isLoading: isLoadingProducts,
-    error: errorProducts,
-    refetch: refetchProducts,
-  } = useGetAllFrontProductsByPaginationQuery(
-    ObjectToParams({ pageSize: 10, pageNumber: 1, order: 'rand', name: search })
+  const [findProduct, { data, isSuccess, isLoading, isError, error }] =
+    useProductSearchMutation();
+
+  const useDebouncedEffect = (
+    callback: () => void,
+    delay: number,
+    dependencies: any[]
+  ): void => {
+    useEffect(() => {
+      const handler = setTimeout(callback, delay);
+
+      return () => {
+        clearTimeout(handler);
+      };
+    }, [...dependencies, delay]);
+  };
+
+  useDebouncedEffect(
+    () => {
+      findProduct(search);
+    },
+    1000,
+    [search]
   );
 
   useEffect(() => {
-    if (isErrorProducts) {
-
+    if (isSuccess) {
+      setSearchData(
+        data?.payload?.map((item: any, index: string) => {
+          return {
+            label: item?.name,
+            value: index + "-" + String(item?.category_id),
+          };
+        })
+      );
     }
+  }, [isSuccess, isError]);
 
-    if (isSuccessProducts) {
-      const mappedData = dataProducts?.payload?.map((product: any) => {
-        return {
-          value: String(product?.id),
-          label: product?.name
-        }
-      })
-
-      setSearchData(mappedData)
-    }
-  }, [isSuccessProducts, isErrorProducts])
+  const renderAutocompleteOption: AutocompleteProps["renderOption"] = ({
+    option,
+  }) => (
+    <Group
+      gap="sm"
+      className="w-full"
+      onClick={() =>
+        window.location.replace("/category/" + option?.value?.split("-")[1])
+      }
+    >
+      <Text size="sm" className="w-full">
+        {(option as any)?.label}
+      </Text>
+    </Group>
+  );
 
   return (
     <header className={`${classes.header} shadow-md fixed z-50 w-full`}>
@@ -60,10 +96,10 @@ export default function AppHeader() {
             placeholder="Поиск..."
             rightSection={<Icon name="search" variant="outline" />}
             onChange={(e) => setSearch(e)}
-
             // @ts-ignore
             data={searchData}
             visibleFrom="xs"
+            renderOption={renderAutocompleteOption}
           />
           <Flex gap={"md"}>
             <Link href={"/wishlist"} className="no-underline text-[#01B763]">
@@ -120,8 +156,9 @@ export default function AppHeader() {
           // @ts-ignore
           data={searchData}
           hiddenFrom="md"
+          renderOption={renderAutocompleteOption}
         />
       </Container>
     </header>
   );
-};
+}

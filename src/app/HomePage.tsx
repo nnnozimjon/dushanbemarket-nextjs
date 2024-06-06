@@ -10,11 +10,10 @@ import {
 import { ObjectToParams } from "@/utils/objectToParams";
 import { Container, Flex, SimpleGrid, Skeleton } from "@mantine/core";
 import Link from "next/link";
-import { ProductCard } from "@/components";
+import { Pagination, ProductCard } from "@/components";
 
 import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import Head from "next/head";
 
 interface CarouselBanners {
   id: number;
@@ -41,7 +40,7 @@ export default function Home() {
   const [splitCarousel, setSplitCarousel] = useState<CarouselBanners[]>([]);
 
   const [pageSize, setPageSize] = useState(20);
-  const [pageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const {
     data: dataCt,
@@ -134,31 +133,13 @@ export default function Home() {
 
   const [firstBannerPart, secondBannerPart] = splitArray(bannerCarousel);
 
+  const handleChangePage = (newPage: number) => {
+    setPageNumber(newPage);
+    window.scrollTo({ top: 600, behavior: "smooth" });
+  };
+
   return (
     <Container size={"xl"}>
-      <Head>
-        <title>Душанбе Маркет - Простые и Удобные Покупки</title>
-        <meta
-          name="description"
-          content="Душанбе Маркет: Ваш лучший выбор для онлайн шопинга в Таджикистане. Широкий ассортимент товаров по выгодным ценам. Присоединяйтесь к нам сегодня!"
-        />
-        <meta
-          name="keywords"
-          content="Душанбе Маркет, онлайн маркетплейс, Таджикистан, покупки, онлайн шопинг, товары, услуги"
-        />
-
-        <meta
-          property="og:title"
-          content="Душанбе Маркет - Простые и Удобные Покупки"
-        />
-        <meta
-          property="og:description"
-          content="Душанбе Маркет: Ваш лучший выбор для онлайн шопинга в Таджикистане. Широкий ассортимент товаров по выгодным ценам. Присоединяйтесь к нам сегодня!"
-        />
-        <meta property="og:image" content="./logo.png" />
-        <meta property="og:url" content="https://dushanbemarket.com" />
-        <meta property="og:type" content="website" />
-      </Head>
       <div className={"p-2 md:px-[70px] md:py-10"}>
         {/*  */}
         <Carousel
@@ -167,9 +148,9 @@ export default function Home() {
           slideSize={{ base: "11,1%" }}
           slideGap={{ base: 0, sm: "md" }}
           loop
-          plugins={[autoplayCategories.current]}
-          onMouseEnter={autoplayCategories.current.stop}
-          onMouseLeave={autoplayCategories.current.reset}
+          // plugins={[autoplayCategories.current]}
+          // onMouseEnter={autoplayCategories.current.stop}
+          // onMouseLeave={autoplayCategories.current.reset}
         >
           {isLoadingCt &&
             Array.from({ length: 14 }, (_, index) => (
@@ -316,9 +297,9 @@ export default function Home() {
           slideSize={{ base: "11,1%" }}
           slideGap={{ base: 0, sm: "md" }}
           loop
-          plugins={[autoplaySubCategories.current]}
-          onMouseEnter={autoplaySubCategories.current.stop}
-          onMouseLeave={autoplaySubCategories.current.reset}
+          // plugins={[autoplaySubCategories.current]}
+          // onMouseEnter={autoplaySubCategories.current.stop}
+          // onMouseLeave={autoplaySubCategories.current.reset}
         >
           {isLoadingSubCt &&
             Array.from({ length: 14 }, (_, index) => (
@@ -386,6 +367,12 @@ export default function Home() {
               />
             ))}
         </SimpleGrid>
+      </div>
+      <div className="w-full flex items-center justify-center">
+        <Pagination
+          total={dataProducts?.totalPages}
+          onChange={handleChangePage}
+        />
       </div>
     </Container>
   );

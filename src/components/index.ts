@@ -28,4 +28,6 @@ export const ActiveOrderCard = dynamic(
   () => import("./active-orders-card/active-orders-card"),
   { ssr: false }
 );
-// export const Layout = dynamic(() => import("./layout"), { ssr: false });
+export const Pagination = dynamic(() => import("./pagination/pagination"), {
+  ssr: false,
+});
