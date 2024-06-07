@@ -17,6 +17,7 @@ export async function generateMetadata(
   );
 
   return {
+      icons: './favicon.png',
     title: `${product?.payload?.name} - Купить онлайн на Душанбе Маркет | Лучшие цены и широкий
       ассортимент`,
     description: `Покупайте ${product?.payload?.name} онлайн на Душанбе Маркет. Широкий выбор, отличные цены и удобная доставка. Не упустите возможность приобрести ${product?.payload?.name} прямо сейчас!`,

@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import ActiveOrdersPage from "./ActiveOrdersPage";
 
 export const metadata: Metadata = {
+    icons: './favicon.png',
   title:
     "Активные заказы - Душанбе Маркет | Отслеживайте свои текущие покупки и заказы",
   description:

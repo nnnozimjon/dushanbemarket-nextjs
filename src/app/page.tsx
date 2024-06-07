@@ -2,6 +2,7 @@ import Home from "./HomePage";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  icons: './favicon.png',
   title: "Душанбе Маркет - Простые и Удобные Покупки",
   description:
     "Душанбе Маркет: Ваш лучший выбор для онлайн шопинга в Таджикистане. Широкий ассортимент товаров по выгодным ценам. Присоединяйтесь к нам сегодня!",

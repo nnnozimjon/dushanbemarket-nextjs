@@ -3,6 +3,7 @@ import WishlistPage from './WishlisPage'
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+    icons: './favicon.png',
   title: "Мой список желаемого - Сохраните свои любимые товары здесь",
   description:
     "Создайте список желаемого на Душанбе Маркет и сохраните там все товары, которые хотели бы приобрести в будущем. Удобно, просто и всегда под рукой!",

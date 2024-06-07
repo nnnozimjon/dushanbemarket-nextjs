@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import CartPage from "./CartPage";
 
 export const metadata: Metadata = {
+    icons: './favicon.png',
   title:
     "Корзина покупок - Душанбе Маркет | Проверьте и оформите свои покупки здесь",
   description:

@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import ProfilePage from "./ProfilePage";
 
 export const metadata: Metadata = {
+    icons: './favicon.png',
   title: `Мой профиль - Душанбе Маркет | Управляйте своим аккаунтом и
           настройками здесь`,
   description:

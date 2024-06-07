@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import OrderPage from "./OrderPage";
 
 export const metadata: Metadata = {
+    icons: './favicon.png',
   title: `Оформление заказа - Душанбе Маркет | Подтвердите свои покупки и
           выберите способ доставки`,
   description:
