@@ -8,6 +8,8 @@ import {
   Indicator,
   Group,
   AutocompleteProps,
+  Input,
+  Menu,
 } from "@mantine/core";
 import classes from "./styles.module.css";
 import { AppLogo, Icon } from "..";
@@ -66,41 +68,47 @@ export default function AppHeader() {
     }
   }, [isSuccess, isError]);
 
-  const renderAutocompleteOption: AutocompleteProps["renderOption"] = ({
-    option,
-  }) => (
-    <Group
-      gap="sm"
-      className="w-full"
-      onClick={() =>
-        window.location.replace("/category/" + option?.value?.split("-")[1])
-      }
-    >
-      <Text size="sm" className="w-full">
-        {(option as any)?.label}
-      </Text>
-    </Group>
-  );
-
   return (
     <header className={`${classes.header} shadow-md fixed z-50 w-full`}>
       <Container size="md">
         <div className={classes.inner}>
           <AppLogo />
-          <Autocomplete
-            className={"w-full hidden lg:grid"}
-            classNames={{
-              input: "border border-green",
-              option: "hover:bg-[#01b76220]",
-            }}
-            placeholder="Поиск..."
-            rightSection={<Icon name="search" variant="outline" />}
-            onChange={(e) => setSearch(e)}
-            // @ts-ignore
-            data={searchData}
-            visibleFrom="xs"
-            renderOption={renderAutocompleteOption}
-          />
+          <Menu width={"target"} trigger="click-hover">
+            <Menu.Target>
+              <Input
+                key={"search-md"}
+                className={"w-full"}
+                classNames={{
+                  input: "border border-green",
+                }}
+                placeholder="Поиск..."
+                rightSection={<Icon name="search" variant="outline" />}
+                onChange={(e) => setSearch(e.target.value)}
+                visibleFrom="md"
+              />
+            </Menu.Target>
+            <Menu.Dropdown>
+              {searchData?.length > 0 ? (
+                searchData?.map((option: any, index: number) => (
+                  <Menu.Item
+                    key={index}
+                    onClick={() =>
+                      window.location.replace(
+                        "/category/" + option?.value?.split("-")[1]
+                      )
+                    }
+                  >
+                    {(option as any)?.label}
+                  </Menu.Item>
+                ))
+              ) : (
+                <div className="h-[150px] w-full flex items-center justify-center flex-col">
+                  <Text className="text-[30px]">😔</Text>
+                  <Text>По запросу ничего не найдено</Text>
+                </div>
+              )}
+            </Menu.Dropdown>
+          </Menu>
           <Flex gap={"md"}>
             <Link href={"/wishlist"} className="no-underline text-[#01B763]">
               <Indicator
@@ -144,20 +152,42 @@ export default function AppHeader() {
           </Flex>
           {/* <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" /> */}
         </div>
-        <Autocomplete
-          className={"w-full"}
-          classNames={{
-            input: "border border-green",
-            option: "hover:bg-[#01b76220]",
-          }}
-          placeholder="Search"
-          rightSection={<Icon name="search" variant="outline" />}
-          onChange={(e) => setSearch(e)}
-          // @ts-ignore
-          data={searchData}
-          hiddenFrom="md"
-          renderOption={renderAutocompleteOption}
-        />
+        <Menu width={"target"} trigger="click-hover">
+          <Menu.Target>
+            <Input
+              key={"search-sm"}
+              className={"w-full"}
+              classNames={{
+                input: "border border-green",
+              }}
+              placeholder="Поиск..."
+              rightSection={<Icon name="search" variant="outline" />}
+              onChange={(e) => setSearch(e.target.value)}
+              hiddenFrom="md"
+            />
+          </Menu.Target>
+          <Menu.Dropdown>
+            {searchData?.length > 0 ? (
+              searchData?.map((option: any, index: number) => (
+                <Menu.Item
+                  key={index}
+                  onClick={() =>
+                    window.location.replace(
+                      "/category/" + option?.value?.split("-")[1]
+                    )
+                  }
+                >
+                  {(option as any)?.label}
+                </Menu.Item>
+              ))
+            ) : (
+              <div className="h-[150px] w-full flex items-center justify-center flex-col">
+                <Text className="text-[30px]">😔</Text>
+                <Text>По запросу ничего не найдено</Text>
+              </div>
+            )}
+          </Menu.Dropdown>
+        </Menu>
       </Container>
     </header>
   );
