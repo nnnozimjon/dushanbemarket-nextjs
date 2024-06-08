@@ -11,13 +11,15 @@ import { ObjectToParams } from "@/utils/objectToParams";
 import Link from "next/link";
 import empty from "@/assets/empty-cart.png";
 import { useParams } from "next/navigation";
+import Pagination from "@/components/pagination/pagination";
 
 export default function CategoryPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
   const [pageSize, setPageSize] = useState(20);
-  const [pageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
+
   const urlSearchParams = new URLSearchParams(window.location.search);
   const category_name = urlSearchParams.get("name");
   const params = useParams();
@@ -57,6 +59,11 @@ export default function CategoryPage() {
       setCategories(dataCt?.payload);
     }
   }, [isSuccessCt, isErrorCt]);
+
+  const handleChangePage = (newPage: number) => {
+    setPageNumber(newPage);
+    window.scrollTo({ top: 600, behavior: "smooth" });
+  };
 
   return (
     <Container size={"xl"}>
@@ -187,6 +194,12 @@ export default function CategoryPage() {
             </Flex>
           </Flex>
         )}
+      </div>
+      <div className="w-full flex items-center justify-center">
+        <Pagination
+          total={dataProducts?.totalPages}
+          onChange={handleChangePage}
+        />
       </div>
     </Container>
   );

@@ -228,9 +228,7 @@ export default function OrderPage() {
                 </Text>
                 <div className="border-gray-light border-b-[1px] border-0 border-dotted w-full" />
                 <Text className="text-[#949aa0] w-fit text-[14px]">
-                  {Number(
-                    cart?.totalPrice + sortedProducts?.length * 25
-                  ).toFixed(2)}
+                  {Number(cart?.totalPrice).toFixed(2)}
                   c.
                 </Text>
               </Flex>
@@ -252,12 +250,11 @@ export default function OrderPage() {
                 className="w-full"
                 gap={"lg"}
               >
-                <Text className="text-[#949aa0] w-full text-[14px]">
-                  Общая сумма доставки
-                </Text>
-                <div className="border-gray-light border-b-[1px] border-0 border-dotted w-full" />
                 <Text className="text-[#949aa0] w-fit text-[14px]">
-                  {sortedProducts?.length * 25}c.
+                  Доставка
+                </Text>
+                <Text className="text-[#949aa0] w-fit text-[14px]">
+                  0 - 25с.
                 </Text>
               </Flex>
               <Flex
@@ -271,9 +268,7 @@ export default function OrderPage() {
                 </Text>
                 <div className="border-gray-light border-b-[1px] border-0 border-dotted w-full" />
                 <Text className="text-[#000] font-bold text-[18px] w-fit">
-                  {Number(
-                    cart?.totalPrice + sortedProducts?.length * 25
-                  ).toFixed(2)}
+                  {Number(cart?.totalPrice).toFixed(2)}
                   c.
                 </Text>
               </Flex>

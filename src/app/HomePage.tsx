@@ -14,6 +14,7 @@ import { Pagination, ProductCard } from "@/components";
 
 import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { redirect } from "@/utils/redirect";
 
 interface CarouselBanners {
   id: number;
@@ -174,7 +175,7 @@ export default function Home() {
                   <Flex direction={"column"} align={"center"}>
                     <Image
                       src={item?.image}
-                      className="shrink-0 border-[3px] border-green border-solid p-1 h-[80px] md:h-[100px] w-[80px] md:w-[100px] !m-0 rounded-full"
+                      className="shrink-0 border-[3px] border-green border-solid p-1 h-[80px] md:h-[100px] w-[80px] md:w-[100px] !m-0 rounded-full cursor-pointer"
                       alt=""
                     />
                     <p className="text-sm md:text-base text-center w-[100px]">
@@ -212,7 +213,10 @@ export default function Home() {
                   <Image
                     src={item.image}
                     alt={`ads`}
-                    className="bg-[red]"
+                    className="bg-[#ccc] cursor-pointer"
+                    onClick={() =>
+                      item?.link ? redirect(item?.link) : () => {}
+                    }
                     style={{
                       borderRadius: "8px",
                       width: "100%",
@@ -248,7 +252,10 @@ export default function Home() {
                   <Image
                     src={item.image}
                     alt={`ads`}
-                    className="bg-[red]"
+                    className="bg-[#ccc] cursor-pointer"
+                    onClick={() =>
+                      item?.link ? redirect(item?.link) : () => {}
+                    }
                     style={{
                       borderRadius: "8px",
                       width: "100%",
@@ -278,7 +285,8 @@ export default function Home() {
                 <Image
                   src={item?.image}
                   alt={`ads`}
-                  className="h-[200px]"
+                  className="h-[200px] cursor-pointer"
+                  onClick={() => (item?.link ? redirect(item?.link) : () => {})}
                   style={{
                     borderRadius: "8px",
                     width: "100%",

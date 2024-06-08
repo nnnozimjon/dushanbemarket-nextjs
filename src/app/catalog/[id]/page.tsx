@@ -11,13 +11,14 @@ import {
 } from "@/store";
 import empty from "@/assets/empty-cart.png";
 import Head from "next/head";
+import Pagination from "@/components/pagination/pagination";
 
 export default function CatalogPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
   const [pageSize, setPageSize] = useState(20);
-  const [pageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const urlSearchParams = new URLSearchParams(window.location.search);
   const category_name = urlSearchParams.get("name");
@@ -60,6 +61,11 @@ export default function CatalogPage() {
       setCategories(dataCt?.payload);
     }
   }, [isSuccessCt, isErrorCt]);
+
+  const handleChangePage = (newPage: number) => {
+    setPageNumber(newPage);
+    window.scrollTo({ top: 600, behavior: "smooth" });
+  };
 
   return (
     <Container size={"xl"}>
@@ -177,6 +183,12 @@ export default function CatalogPage() {
             </Flex>
           </Flex>
         )}
+      </div>
+      <div className="w-full flex items-center justify-center">
+        <Pagination
+          total={dataProducts?.totalPages}
+          onChange={handleChangePage}
+        />
       </div>
     </Container>
   );
