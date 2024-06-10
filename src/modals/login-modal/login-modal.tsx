@@ -237,7 +237,7 @@ export const LoginModal: React.FC<Props> = ({ onClose, opened }) => {
       return toast.warning("Требуется пароль!");
     }
 
-    if (registerCredential?.password?.length < 8) {
+    if (registerCredential?.password?.length <= 8) {
       return toast.warning("Пароль должен иметь длину не менее 8 символов!");
     }
 
