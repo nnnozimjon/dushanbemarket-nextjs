@@ -1,4 +1,4 @@
-import { Text, Container, ActionIcon, Group, rem } from '@mantine/core';
+import { Text, Container, ActionIcon, Group, rem, Divider } from '@mantine/core';
 import classes from './styles.module.css';
 import { AppLogo } from '..'
 
@@ -57,7 +57,7 @@ export default function AppFooter() {
                 <div className={classes.logo}>
                     <AppLogo />
                     <Text size="xs" c="white" className={classes.description}>
-                        Покупки станут проще
+                        Душанбе маркет, покупки станут проще
                     </Text>
                 </div>
                 <div className={classes.groups}>{groups}</div>
@@ -79,6 +79,12 @@ export default function AppFooter() {
                     </ActionIcon>
                 </Group> */}
             </Container>
+            <Divider />
+            <div className='w-full flex p-3 items-center justify-center'>
+                <a href='https://instagram.com/tajcent' className='text-[white] no-underline font-medium cursor-pointer'>
+                    Tajcent Entertainment LLC {new Date().getFullYear()}
+                </a>
+            </div>
         </footer>
     );
 }

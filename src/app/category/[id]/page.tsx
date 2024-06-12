@@ -35,7 +35,7 @@ export default function CategoryPage() {
     ObjectToParams({
       pageSize,
       pageNumber,
-      order: "asc",
+      order: "desc",
       category_id: params?.id,
     })
   );
@@ -52,13 +52,17 @@ export default function CategoryPage() {
     if (isSuccessProducts) {
       setProducts(dataProducts?.payload);
     }
-  }, [isSuccessProducts, isErrorProducts]);
+  }, [isSuccessProducts, isErrorProducts, dataProducts?.payload]);
 
   useEffect(() => {
     if (isSuccessCt) {
       setCategories(dataCt?.payload);
     }
-  }, [isSuccessCt, isErrorCt]);
+  }, [isSuccessCt, isErrorCt, dataCt?.payload]);
+
+  useEffect(() => {
+    refetchProducts();
+  }, [pageNumber, pageSize, refetchProducts]);
 
   const handleChangePage = (newPage: number) => {
     setPageNumber(newPage);

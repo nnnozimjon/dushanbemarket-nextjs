@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Container, Flex, Image, SimpleGrid, Text } from "@mantine/core";
-import { Icon, ProductCard } from "@/components";
+import { ProductCard } from "@/components";
 import { useParams } from "next/navigation";
 import { ObjectToParams } from "@/utils/objectToParams";
 import {
@@ -10,7 +10,6 @@ import {
   useGetAllWidgetsQuery,
 } from "@/store";
 import empty from "@/assets/empty-cart.png";
-import Head from "next/head";
 import Pagination from "@/components/pagination/pagination";
 
 export default function CatalogPage() {
@@ -52,15 +51,17 @@ export default function CatalogPage() {
     if (isSuccessProducts) {
       setProducts(dataProducts?.payload);
     }
-  }, [isSuccessProducts, isErrorProducts]);
+  }, [isSuccessProducts, isErrorProducts, dataProducts?.payload]);
 
-  console.log(dataCt);
+  useEffect(() => {
+    refetchProducts();
+  }, [pageNumber, pageSize, refetchProducts]);
 
   useEffect(() => {
     if (isSuccessCt) {
       setCategories(dataCt?.payload);
     }
-  }, [isSuccessCt, isErrorCt]);
+  }, [isSuccessCt, isErrorCt, dataCt?.payload]);
 
   const handleChangePage = (newPage: number) => {
     setPageNumber(newPage);

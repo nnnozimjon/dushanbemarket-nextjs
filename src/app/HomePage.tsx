@@ -83,7 +83,7 @@ export default function Home() {
     error: errorProducts,
     refetch: refetchProducts,
   } = useGetAllFrontProductsByPaginationQuery(
-    ObjectToParams({ pageSize, pageNumber, order: "rand" })
+    ObjectToParams({ pageSize, pageNumber, order: "desc" })
   );
 
   useEffect(() => {
@@ -95,35 +95,35 @@ export default function Home() {
     if (isSuccessProducts) {
       setProducts(dataProducts?.payload);
     }
-  }, [isSuccessProducts, isErrorProducts]);
+  }, [isSuccessProducts, isErrorProducts, dataProducts?.payload]);
 
   // categories
   useEffect(() => {
     if (isSuccessCt) {
       setCategories(dataCt?.payload);
     }
-  }, [isSuccessCt, isErrorCt]);
+  }, [isSuccessCt, isErrorCt, dataCt?.payload]);
 
   // sub-categories
   useEffect(() => {
     if (isSuccessSubCt) {
       setSubCategories(dataSubCt?.payload);
     }
-  }, [isSuccessSubCt, isErrorSubCt]);
+  }, [isSuccessSubCt, isErrorSubCt, dataSubCt?.payload]);
 
   // carousel
   useEffect(() => {
     if (isSuccessCarousel) {
       setBannerCarousel(dataCarousel?.payload);
     }
-  }, [isSuccessCarousel, isErrorCarousel]);
+  }, [isSuccessCarousel, isErrorCarousel, dataCarousel?.payload]);
 
   // split-carousel
   useEffect(() => {
     if (isSuccessSplitCarousel) {
       setSplitCarousel(dataSplitCarousel?.payload);
     }
-  }, [isSuccessSplitCarousel, isErrorSplitCarousel]);
+  }, [isSuccessSplitCarousel, isErrorSplitCarousel, dataSplitCarousel?.payload]);
 
   function splitArray(array: CarouselBanners[]) {
     const midpoint = Math.floor(array.length / 2);

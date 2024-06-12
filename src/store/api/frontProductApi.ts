@@ -3,7 +3,7 @@ import { frontBaseUrl } from "../../utils";
 
 export const frontProductApi = createApi({
   reducerPath: "frontProduct",
-  baseQuery: fetchBaseQuery({ baseUrl: frontBaseUrl + "/product" }),
+  baseQuery: fetchBaseQuery({ baseUrl: frontBaseUrl + "/product" , cache: 'no-cache' }),
   endpoints: (build) => ({
     getAllFrontProductsByPagination: build.query({
       query: (params) => ({
