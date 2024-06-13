@@ -12,7 +12,7 @@ interface Props {
   status: string;
 }
 
-export default function ActiveOrderCard({
+export function ActiveOrderCard({
   img,
   name,
   order_id,

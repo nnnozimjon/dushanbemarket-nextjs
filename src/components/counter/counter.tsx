@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Button, Flex, Text } from '@mantine/core'
-import Icon  from '../icon/icon'
+import { Icon }  from '../icon/icon'
 
 interface Props {
     qty: number
@@ -10,7 +10,7 @@ interface Props {
     decrease?: () => void
 }
 
-export default function Counter ({ qty = 0, increase, decrease }: Props){
+export function Counter ({ qty = 0, increase, decrease }: Props){
     return (
         <Flex align={'center'} gap={'lg'} className=''>
             <Button className='' variant='transparent' onClick={decrease}>

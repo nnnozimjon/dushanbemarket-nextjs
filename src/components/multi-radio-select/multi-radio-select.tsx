@@ -11,7 +11,7 @@ interface Props {
     data: data[]
 }
 
-export default function MultiRadioSelect({ data }: Props){
+export function MultiRadioSelect({ data }: Props){
   const [showAll, setShowAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState<data[]>([]);
 

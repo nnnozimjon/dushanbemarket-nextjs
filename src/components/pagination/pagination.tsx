@@ -6,6 +6,6 @@ import {
 
 interface IPaginationProps extends PaginationProps {}
 
-export default function Pagination(props: IPaginationProps) {
+export function Pagination(props: IPaginationProps) {
   return <MantinePagination {...props} color="green" withControls={false} />;
 }

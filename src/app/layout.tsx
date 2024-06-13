@@ -8,8 +8,9 @@ import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import '@mantine/carousel/styles.css';
-import AppHeader from "@/components/header/header";
-import AppFooter from "@/components/footer/footer";
+
+import { AppFooter } from "@/components";
+import { AppHeader } from "@/components";
 
 export default function RootLayout({
   children,
@@ -22,7 +23,7 @@ export default function RootLayout({
         <Provider store={store}>
           <MantineProvider>
             <AppHeader />
-            <div className="pt-[110px] md:pt-[50px]">{children}</div>
+            <div className="pt-[140px] md:pt-[100px]">{children}</div>
             <AppFooter />
             <ToastContainer
               position="top-right"

@@ -10,17 +10,55 @@ import {
   AutocompleteProps,
   Input,
   Menu,
+  Grid,
+  Button,
 } from "@mantine/core";
 import classes from "./styles.module.css";
 import { AppLogo, Icon } from "..";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { ObjectToParams } from "@/utils/objectToParams";
 import { useProductSearchMutation } from "@/store";
 import { useEffect, useState } from "react";
 import { RootState } from "@/store/store";
+import { IIcons } from "../icon/icon";
 
-export default function AppHeader() {
+interface ICategory {
+  label: string;
+  icon: keyof IIcons;
+}
+
+const categories: ICategory[] = [
+  {
+    label: "Все категории",
+    icon: "category",
+  },
+  {
+    label: "Электроника",
+    icon: "camera",
+  },
+  {
+    label: "Аксессуары",
+    icon: "airpods",
+  },
+  {
+    label: "Бытовая техника",
+    icon: "washing-machine",
+  },
+  {
+    label: "Детские товары",
+    icon: "duck",
+  },
+  {
+    label: "Одежда",
+    icon: "shirt",
+  },
+  {
+    label: "Скидки",
+    icon: "discount",
+  },
+];
+
+export function AppHeader() {
   const [searchData, setSearchData] = useState<{ name: string; id: string }[]>(
     []
   );
@@ -69,7 +107,9 @@ export default function AppHeader() {
   }, [isSuccess, isError]);
 
   return (
-    <header className={`${classes.header} shadow-md fixed z-50 w-full`}>
+    <header
+      className={`${classes.header} shadow-md pb-2 md:pb-0 fixed z-50 w-full`}
+    >
       <Container size="md">
         <div className={classes.inner}>
           <AppLogo />
@@ -189,6 +229,25 @@ export default function AppHeader() {
           </Menu.Dropdown>
         </Menu>
       </Container>
+      <Grid visibleFrom="md" className="p-5 bg-green">
+        <Container size={"lg"} className="w-full">
+          <Flex gap={"lg"} align={"center"} justify={"center"}>
+            {categories?.map((category: ICategory, index: number) => (
+              <Button
+                key={index}
+                variant="transparent"
+                c="white"
+                className="!p-0 !m-0"
+                leftSection={
+                  <Icon name={category?.icon} variant="outline" color="white" />
+                }
+              >
+                {category?.label}
+              </Button>
+            ))}
+          </Flex>
+        </Container>
+      </Grid>
     </header>
   );
 }

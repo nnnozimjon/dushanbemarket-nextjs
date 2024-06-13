@@ -8,7 +8,7 @@ import {
   SimpleGrid,
   Text,
 } from "@mantine/core";
-import ActiveOrderCard from "@/components/active-orders-card/active-orders-card";
+import { ActiveOrderCard } from "@/components";
 import { useGetAllOrdersQuery } from "@/store";
 import Head from "next/head";
 

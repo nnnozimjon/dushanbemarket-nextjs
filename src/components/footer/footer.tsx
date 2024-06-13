@@ -3,24 +3,6 @@ import classes from './styles.module.css';
 import { AppLogo } from '..'
 
 const data = [
-    // {
-    //     title: 'About',
-    //     links: [
-    //         { label: 'Features', link: '#' },
-    //         { label: 'Pricing', link: '#' },
-    //         { label: 'Support', link: '#' },
-    //         { label: 'Forums', link: '#' },
-    //     ],
-    // },
-    // {
-    //     title: 'Project',
-    //     links: [
-    //         { label: 'Contribute', link: '#' },
-    //         { label: 'Media assets', link: '#' },
-    //         { label: 'Changelog', link: '#' },
-    //         { label: 'Releases', link: '#' },
-    //     ],
-    // },
     {
         title: 'Мы в Соцсетях',
         links: [
@@ -30,7 +12,7 @@ const data = [
     },
 ];
 
-export default function AppFooter() {
+export function AppFooter() {
     const groups = data.map((group) => {
         const links = group.links.map((link, index) => (
             <Text<'a'>
@@ -66,18 +48,6 @@ export default function AppFooter() {
                 <Text c="white" size="sm">
                     2024 Dushanbe Market
                 </Text>
-
-                {/* <Group gap={0} className={classes.social} justify="flex-end" wrap="nowrap">
-                    <ActionIcon size="lg" color="white" variant="subtle">
-                        I
-                    </ActionIcon>
-                    <ActionIcon size="lg" color="white" variant="subtle">
-                        Y
-                    </ActionIcon>
-                    <ActionIcon size="lg" color="white" variant="subtle">
-                        T
-                    </ActionIcon>
-                </Group> */}
             </Container>
             <Divider />
             <div className='w-full flex p-3 items-center justify-center'>

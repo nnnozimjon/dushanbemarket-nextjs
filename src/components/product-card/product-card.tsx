@@ -18,7 +18,7 @@ interface Props {
     colors?: string
 }
 
-export default function ProductCard({ img, name, price, id, created_by, storeName, sizes = "", colors = "" }: Props){
+export function ProductCard({ img, name, price, id, created_by, storeName, sizes = "", colors = "" }: Props){
     const dispatch = useDispatch()
     const products: any[] = useSelector((state: RootState) => state?.wishlist?.products)
 

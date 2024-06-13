@@ -10,7 +10,7 @@ import {
   useGetAllWidgetsQuery,
 } from "@/store";
 import empty from "@/assets/empty-cart.png";
-import Pagination from "@/components/pagination/pagination";
+import { Pagination } from "@/components";
 
 export default function CatalogPage() {
   const [products, setProducts] = useState([]);

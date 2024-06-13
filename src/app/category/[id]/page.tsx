@@ -11,7 +11,7 @@ import { ObjectToParams } from "@/utils/objectToParams";
 import Link from "next/link";
 import empty from "@/assets/empty-cart.png";
 import { useParams } from "next/navigation";
-import Pagination from "@/components/pagination/pagination";
+import { Pagination } from "@/components";
 
 export default function CategoryPage() {
   const [products, setProducts] = useState([]);

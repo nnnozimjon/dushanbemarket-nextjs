@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function AppLogo(){
+export function AppLogo(){
     return (
         <svg onClick={() => window.location.replace('/')} className='cursor-pointer w-[80px] h-[80px] md:w-[120px] md:h-[120px]'  viewBox="0 0 240 103" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd" d="M47.7196 55.559H47.7561L50.909 32.4577L55.3121 0.0264469H28.1519L20.6117 55.559L19.4453 64.1431H19.5346L18.8672 69.056C24.9794 65.8274 31.779 64.1414 38.6817 64.1431H46.6319L47.6039 56.9819H47.5252L47.7196 55.559ZM58.8799 26.6608H79.7874C88.72 26.6608 95.0254 34.0073 93.7905 42.9875L92.1668 54.956C90.9481 63.947 82.651 71.2827 73.7291 71.2827H80.4021C89.1099 71.2562 97.6054 68.5747 104.769 63.5917C111.932 58.6086 117.428 51.5578 120.53 43.3683C120.662 20.1609 101.615 0 77.444 0H62.5004L58.8799 26.6608Z" fill="currentColor" />
