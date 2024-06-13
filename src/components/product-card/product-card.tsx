@@ -68,9 +68,9 @@ export function ProductCard({ img, name, price, id, created_by, storeName, sizes
 
     return (
         <Flex direction={'column'} className={`flex-shrink-0`}>
-            <Flex direction={'column'} className={'relative  bg-[#f8f8f8] rounded-[25px] p-5'}>
+            <Flex direction={'column'} className={'relative  bg-[#f8f8f8] h-[180px] rounded-[25px] p-5'}>
                 {!img ? <Skeleton className="h-full" radius="xl" /> :
-                <Image src={productImage[0]} className='object-cover w-full h-full' alt='' />}
+                <Image src={productImage[0]} className='object-contain w-full h-full' alt='' />}
                 <Box className={'shadow-md cursor-pointer absolute top-[10px] right-[10px] p-[5px] rounded-full w-fit h-fit flex items-center justify-center bg-[#fff]'}>
                     {!!id && <Icon onClick={likeAndDislike} variant={isLiked ? 'primary' : 'outline'} name='heart' className={'text-[#01B763]'} />}
                 </Box>
@@ -78,8 +78,8 @@ export function ProductCard({ img, name, price, id, created_by, storeName, sizes
             <Flex className='bg-[#f8f8f8] mt-2 p-2 rounded-[10px]' align={'center'}>
                 <div className='w-full'>
                     {!name ? <Skeleton className="h-[15px] w-4/6 mt-4" radius="xl" /> :
-                    <Link href={`/product/${id}`} className={'text-[14px] md:text-[16px] w-fit font-bold text-[#212121] mb-0 font-[Urbanist] no-underline '}>
-                        {name}
+                    <Link href={`/product/${id}`} className={'text-[12px] md:text-[14px] w-fit font-bold text-[#212121] mb-0 no-underline leading-normal'}>
+                        {name?.length > 15 ? name?.substring(0,15) + '...' : name}
                     </Link>}
                     {price ? <Text className='mt-0 text-[14px] md:text-[16px] font-bold text-[#01B763] flex items-center'>
                         <Icon name='money' />
