@@ -25,40 +25,52 @@ import { IIcons } from "../icon/icon";
 interface ICategory {
   label: string;
   icon: keyof IIcons;
+  link: string;
 }
 
 const categories: ICategory[] = [
-  {
-    label: "Все категории",
-    icon: "category",
-  },
+  // {
+  //   label: "Все категории",
+  //   icon: "category",
+  //   link: ''
+  // },
   {
     label: "Электроника",
     icon: "camera",
+    link: '/category/1?name=Электроника'
   },
   {
     label: "Аксессуары",
     icon: "airpods",
+    link: '/catalog/4?name=Наушники%20и%20аудиотехника'
   },
   {
     label: "Бытовая техника",
     icon: "washing-machine",
+    link: '/category/55?name=Бытовая%20техника'
   },
   {
     label: "Детские товары",
     icon: "duck",
+    link: '/category/31?name=Детские%20товары'
   },
   {
     label: "Одежда",
     icon: "shirt",
+    link: '/category/7?name=Одежда%20и%20обувь'
   },
-  {
-    label: "Скидки",
-    icon: "discount",
-  },
+  // {
+  //   label: "Скидки",
+  //   icon: "discount",
+  //   link: ''
+  // },
 ];
 
 export function AppHeader() {
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   const [searchData, setSearchData] = useState<{ name: string; id: string }[]>(
     []
   );
@@ -105,6 +117,26 @@ export function AppHeader() {
       );
     }
   }, [isSuccess, isError]);
+
+  const handleMouseEnter = () => {
+    setDropdownVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setDropdownVisible(false);
+  };
+
+    useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      setIsScrolled(scrollTop > 200);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };}, []);
 
   return (
     <header
@@ -229,7 +261,7 @@ export function AppHeader() {
           </Menu.Dropdown>
         </Menu>
       </Container>
-      <Grid visibleFrom="md" className="p-5 bg-green">
+      <Grid visibleFrom="md" className={`${isScrolled && 'hidden transition-all duration-300'} p-5 bg-green`}>
         <Container size={"lg"} className="w-full">
           <Flex gap={"lg"} align={"center"} justify={"center"}>
             {categories?.map((category: ICategory, index: number) => (
@@ -238,6 +270,11 @@ export function AppHeader() {
                 variant="transparent"
                 c="white"
                 className="!p-0 !m-0"
+                onClick={() => window.location.replace(category?.link)}
+                onMouseEnter={() => {
+                  handleMouseEnter();
+                  setSelectedCategory(category?.label);
+                }}
                 leftSection={
                   <Icon name={category?.icon} variant="outline" color="white" />
                 }
@@ -248,6 +285,17 @@ export function AppHeader() {
           </Flex>
         </Container>
       </Grid>
+      {/* {isDropdownVisible && (
+        <Flex
+          visibleFrom="md"
+          onMouseLeave={handleMouseLeave}
+          className="w-full h-[400px] bg-[white] p-5"
+        >
+          <Container size={"md"} className="w-full">
+            <Text>{selectedCategory}</Text>
+          </Container>
+        </Flex>
+      )} */}
     </header>
   );
 }
