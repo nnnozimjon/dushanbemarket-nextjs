@@ -29,11 +29,11 @@ interface ICategory {
 }
 
 const categories: ICategory[] = [
-  // {
-  //   label: "Все категории",
-  //   icon: "category",
-  //   link: ''
-  // },
+  {
+    label: "Все категории",
+    icon: "category",
+    link: ''
+  },
   {
     label: "Электроника",
     icon: "camera",
@@ -59,11 +59,11 @@ const categories: ICategory[] = [
     icon: "shirt",
     link: '/category/7?name=Одежда%20и%20обувь'
   },
-  // {
-  //   label: "Скидки",
-  //   icon: "discount",
-  //   link: ''
-  // },
+  {
+    label: "Скидки",
+    icon: "discount",
+    link: ''
+  },
 ];
 
 export function AppHeader() {
@@ -285,7 +285,7 @@ export function AppHeader() {
           </Flex>
         </Container>
       </Grid>
-      {/* {isDropdownVisible && (
+      {isDropdownVisible && (
         <Flex
           visibleFrom="md"
           onMouseLeave={handleMouseLeave}
@@ -295,7 +295,7 @@ export function AppHeader() {
             <Text>{selectedCategory}</Text>
           </Container>
         </Flex>
-      )} */}
+      )}
     </header>
   );
 }
