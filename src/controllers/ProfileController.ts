@@ -56,5 +56,6 @@ export const ProfileController = () => {
     opened,
     modalClose,
     modalOpened,
+    close,
   };
 };

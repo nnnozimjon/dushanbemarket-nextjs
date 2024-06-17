@@ -87,5 +87,6 @@ export const CartController = () => {
     filterColors,
     completeOrder,
     opened,
+    close
   };
 };

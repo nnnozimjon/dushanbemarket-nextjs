@@ -27,6 +27,7 @@ export default function CartPage() {
     opened,
     sortedProducts,
     updateProductOptions,
+    close
   } = CartController();
   
   return (

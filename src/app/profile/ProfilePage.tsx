@@ -27,6 +27,7 @@ export default function ProfilePage() {
     modalOpen,
     modalOpened,
     open,
+    close,
     opened,
     products,
     user,
