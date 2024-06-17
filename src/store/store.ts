@@ -1,6 +1,6 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 import { cartReducer, locationReducer, userReducer, wishlistReducer } from './slices'
-import { authApi, frontOrderApi, frontProductApi, frontWidgetApi } from './api'
+import { authApi, categoryApi, frontOrderApi, frontProductApi, frontWidgetApi } from './api'
 
 export const store = configureStore({
     reducer: {
@@ -11,13 +11,15 @@ export const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [frontProductApi.reducerPath]: frontProductApi.reducer,
         [frontWidgetApi.reducerPath]: frontWidgetApi.reducer,
-        [frontOrderApi.reducerPath]: frontOrderApi.reducer
+        [frontOrderApi.reducerPath]: frontOrderApi.reducer,
+        [categoryApi.reducerPath]: categoryApi.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
         authApi.middleware,
         frontProductApi.middleware,
         frontWidgetApi.middleware,
-        frontOrderApi.middleware
+        frontOrderApi.middleware,
+        categoryApi.middleware
     )
 })
 

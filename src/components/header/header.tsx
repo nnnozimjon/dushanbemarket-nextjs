@@ -2,141 +2,39 @@
 
 import {
   Container,
-  Autocomplete,
   Flex,
   Text,
   Indicator,
-  Group,
-  AutocompleteProps,
   Input,
   Menu,
   Grid,
   Button,
+  Divider,
+  NavLink,
+  Group,
+  SimpleGrid,
 } from "@mantine/core";
 import classes from "./styles.module.css";
 import { AppLogo, Icon } from "..";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { useProductSearchMutation } from "@/store";
-import { useEffect, useState } from "react";
-import { RootState } from "@/store/store";
-import { IIcons } from "../icon/icon";
-
-interface ICategory {
-  label: string;
-  icon: keyof IIcons;
-  link: string;
-}
-
-const categories: ICategory[] = [
-  {
-    label: "Все категории",
-    icon: "category",
-    link: ''
-  },
-  {
-    label: "Электроника",
-    icon: "camera",
-    link: '/category/1?name=Электроника'
-  },
-  {
-    label: "Аксессуары",
-    icon: "airpods",
-    link: '/catalog/4?name=Наушники%20и%20аудиотехника'
-  },
-  {
-    label: "Бытовая техника",
-    icon: "washing-machine",
-    link: '/category/55?name=Бытовая%20техника'
-  },
-  {
-    label: "Детские товары",
-    icon: "duck",
-    link: '/category/31?name=Детские%20товары'
-  },
-  {
-    label: "Одежда",
-    icon: "shirt",
-    link: '/category/7?name=Одежда%20и%20обувь'
-  },
-  {
-    label: "Скидки",
-    icon: "discount",
-    link: ''
-  },
-];
+import { HeaderController, ICategory } from "@/controllers/HeaderController";
 
 export function AppHeader() {
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
-
-  const [searchData, setSearchData] = useState<{ name: string; id: string }[]>(
-    []
-  );
-  const [search, setSearch] = useState<string>("");
-
-  const user = useSelector((state: RootState) => state?.user);
-  const cart = useSelector((state: RootState) => state?.cart);
-  const wishlist = useSelector((state: RootState) => state?.wishlist);
-
-  const [findProduct, { data, isSuccess, isLoading, isError, error }] =
-    useProductSearchMutation();
-
-  const useDebouncedEffect = (
-    callback: () => void,
-    delay: number,
-    dependencies: any[]
-  ): void => {
-    useEffect(() => {
-      const handler = setTimeout(callback, delay);
-
-      return () => {
-        clearTimeout(handler);
-      };
-    }, [...dependencies, delay]);
-  };
-
-  useDebouncedEffect(
-    () => {
-      findProduct(search);
-    },
-    1000,
-    [search]
-  );
-
-  useEffect(() => {
-    if (isSuccess) {
-      setSearchData(
-        data?.payload?.map((item: any, index: string) => {
-          return {
-            label: item?.name,
-            value: index + "-" + String(item?.category_id),
-          };
-        })
-      );
-    }
-  }, [isSuccess, isError]);
-
-  const handleMouseEnter = () => {
-    setDropdownVisible(true);
-  };
-
-  const handleMouseLeave = () => {
-    setDropdownVisible(false);
-  };
-
-    useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
-      setIsScrolled(scrollTop > 200);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };}, []);
+  const {
+    cart,
+    user,
+    wishlist,
+    setSearch,
+    searchData,
+    categories,
+    handleMouseEnter,
+    handleMouseLeave,
+    isDropdownVisible,
+    isScrolled,
+    activeLink,
+    setActiveLink,
+    allCategories,
+  } = HeaderController();
 
   return (
     <header
@@ -222,7 +120,6 @@ export function AppHeader() {
               </Flex>
             </Link>
           </Flex>
-          {/* <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" /> */}
         </div>
         <Menu width={"target"} trigger="click-hover">
           <Menu.Target>
@@ -261,27 +158,45 @@ export function AppHeader() {
           </Menu.Dropdown>
         </Menu>
       </Container>
-      <Grid visibleFrom="md" className={`${isScrolled && 'hidden transition-all duration-300'} p-5 bg-green`}>
+      <Grid
+        visibleFrom="md"
+        className={`${isScrolled && "hidden transition-all duration-300"} p-5 bg-green`}
+      >
         <Container size={"lg"} className="w-full">
           <Flex gap={"lg"} align={"center"} justify={"center"}>
-            {categories?.map((category: ICategory, index: number) => (
-              <Button
-                key={index}
-                variant="transparent"
-                c="white"
-                className="!p-0 !m-0"
-                onClick={() => window.location.replace(category?.link)}
-                onMouseEnter={() => {
-                  handleMouseEnter();
-                  setSelectedCategory(category?.label);
-                }}
-                leftSection={
-                  <Icon name={category?.icon} variant="outline" color="white" />
-                }
-              >
-                {category?.label}
-              </Button>
-            ))}
+            <Button
+              variant="transparent"
+              c="white"
+              className="!p-0 !m-0"
+              onMouseEnter={() => {
+                handleMouseEnter();
+              }}
+              leftSection={
+                <Icon name={"category"} variant="outline" color="white" />
+              }
+            >
+              Все категории
+            </Button>
+            {categories?.map(
+              (category: Omit<ICategory, "id">, index: number) => (
+                <Button
+                  key={index}
+                  variant="transparent"
+                  c="white"
+                  className="!p-0 !m-0"
+                  onClick={() => window.location.replace(category?.link)}
+                  leftSection={
+                    <Icon
+                      name={category?.icon}
+                      variant="outline"
+                      color="white"
+                    />
+                  }
+                >
+                  {category?.name}
+                </Button>
+              )
+            )}
           </Flex>
         </Container>
       </Grid>
@@ -289,10 +204,77 @@ export function AppHeader() {
         <Flex
           visibleFrom="md"
           onMouseLeave={handleMouseLeave}
-          className="w-full h-[400px] bg-[white] p-5"
+          className="w-full bg-[white] p-5"
         >
           <Container size={"md"} className="w-full">
-            <Text>{selectedCategory}</Text>
+            <Flex gap={"sm"}>
+              <div className="!w-[300px]">
+                {allCategories?.map(
+                  (
+                    category: Omit<ICategory, "link" | "icon">,
+                    index: number
+                  ) => (
+                    <NavLink
+                      onMouseOver={() => setActiveLink(category)}
+                      active={category?.id === activeLink?.id}
+                      c={"black"}
+                      color="gray.2"
+                      key={index}
+                      variant="filled"
+                      label={category?.name}
+                      className="rounded-lg text-[0.875rem] no-underline font-semibold text-[#212121s]"
+                      href={`/category/${category?.id}`}
+                    />
+                  )
+                )}
+              </div>
+              <Divider orientation="vertical" />
+              <Group className="border w-full items-start px-[30px] py-[20px] flex-col">
+                <Text className="text-[1.45rem] font-bold text-[#212121]">
+                  {activeLink?.name}
+                </Text>
+                <SimpleGrid
+                  className="w-full"
+                  cols={{ sm: 2, lg: 3 }}
+                  spacing={{ base: 10, sm: "xl" }}
+                  verticalSpacing={{ base: "md", sm: "xl" }}
+                >
+                  {activeLink?.subCategories?.map(
+                    (
+                      subCategory: Omit<ICategory, "icon" | "link">,
+                      index: number
+                    ) => (
+                      <Flex direction={"column"} key={index}>
+                        <NavLink
+                          className="text-[1rem] no-underline font-bold text-[#212121] hover:text-[#2A5FFE]"
+                          color="none"
+                          label={subCategory?.name}
+                          href={
+                            `/category/${subCategory?.id}?name=` +
+                            subCategory?.name
+                          }
+                        />
+                        {subCategory?.subCategories?.map(
+                          (
+                            sub: Omit<ICategory, "icon" | "link">,
+                            index: number
+                          ) => (
+                            <NavLink
+                              unstyled
+                              key={index}
+                              className="text-[1rem] no-underline text-[#212121] hover:text-[#2A5FFE] pl-[10px] cursor-pointer m-[10px_0px_0px]"
+                              color="none"
+                              label={sub?.name}
+                              href={`/category/${sub?.id}?name=` + sub?.name}
+                            />
+                          )
+                        )}
+                      </Flex>
+                    )
+                  )}
+                </SimpleGrid>
+              </Group>
+            </Flex>
           </Container>
         </Flex>
       )}

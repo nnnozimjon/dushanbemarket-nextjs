@@ -1,72 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container, Flex, Image, SimpleGrid, Text } from "@mantine/core";
 import { ProductCard } from "@/components";
-import { useParams } from "next/navigation";
-import { ObjectToParams } from "@/utils/objectToParams";
-import {
-  useGetAllFrontProductsByPaginationQuery,
-  useGetAllWidgetsQuery,
-} from "@/store";
 import empty from "@/assets/empty-cart.png";
 import { Pagination } from "@/components";
+import { CatalogController } from "@/controllers/CatalogController";
 
 export default function CatalogPage() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-
-  const [pageSize, setPageSize] = useState(20);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  const category_name = urlSearchParams.get("name");
-  const params = useParams();
-
   const {
-    data: dataProducts,
-    isError: isErrorProducts,
-    isSuccess: isSuccessProducts,
-    isLoading: isLoadingProducts,
-    error: errorProducts,
-    refetch: refetchProducts,
-  } = useGetAllFrontProductsByPaginationQuery(
-    ObjectToParams({
-      pageSize,
-      pageNumber,
-      order: "asc",
-      sub_category_id: params.id,
-    })
-  );
-
-  const {
-    data: dataCt,
-    isError: isErrorCt,
-    isSuccess: isSuccessCt,
-    isLoading: isLoadingCt,
-    error: errorCt,
-  } = useGetAllWidgetsQuery(params?.id);
-
-  useEffect(() => {
-    if (isSuccessProducts) {
-      setProducts(dataProducts?.payload);
-    }
-  }, [isSuccessProducts, isErrorProducts, dataProducts?.payload]);
-
-  useEffect(() => {
-    refetchProducts();
-  }, [pageNumber, pageSize, refetchProducts]);
-
-  useEffect(() => {
-    if (isSuccessCt) {
-      setCategories(dataCt?.payload);
-    }
-  }, [isSuccessCt, isErrorCt, dataCt?.payload]);
-
-  const handleChangePage = (newPage: number) => {
-    setPageNumber(newPage);
-    window.scrollTo({ top: 600, behavior: "smooth" });
-  };
+    category_name,
+    dataProducts,
+    handleChangePage,
+    isLoadingProducts,
+    products,
+  } = CatalogController();
 
   return (
     <Container size={"xl"}>
@@ -94,24 +42,6 @@ export default function CatalogPage() {
         <meta property="og:type" content="website" />
       </Head> */}
       <div className="md:py-10">
-        {/* <h1 className="text-[18px] md:text-[2em] mb-2">Популярные категории</h1>
-        <SimpleGrid
-          cols={{ base: 3, md: 6, lg: 8 }}
-          spacing={{ base: 10, sm: 'xl' }}
-          verticalSpacing={{ base: 'md', sm: 'xl' }}
-        >
-          {Array.from({ length: 8 }, (_, index) => (
-            <Flex direction={'column'} align={'center'} key={index}>
-              <img
-                src="https://ir.ozone.ru/s3/cms/59/tf9/wc250/1.jpg"
-                className="rounded-xl w-full"
-                alt={`Image ${index}`}
-              />
-              <p className="text-sm md:text-base mt-2">Смартфоны</p>
-            </Flex>
-          ))}
-        </SimpleGrid>
-        <br /> */}
         <Flex
           justify={"space-between"}
           className="py-[30px] flex-col md:flex-row align-baseline"

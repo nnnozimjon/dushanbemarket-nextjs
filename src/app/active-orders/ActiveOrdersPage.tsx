@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ActiveOrderCard, Icon } from "@/components";
 
 import {
@@ -10,23 +10,13 @@ import {
   SimpleGrid,
   Text,
 } from "@mantine/core";
-import { useGetAllOrdersQuery } from "@/store";
+import { ActiveOrdersController } from "@/controllers/ActiveOrdersController";
+
 
 
 export default function ActiveOrdersPage() {
-  const [orders, setOrders] = useState([]);
+  const { isLoading, orders } = ActiveOrdersController.getAll()
 
-  const { data, error, isError, isSuccess, isLoading } =
-    useGetAllOrdersQuery("?type=active");
-
-  useEffect(() => {
-    if (isError) {
-    }
-
-    if (isSuccess) {
-      setOrders(data?.payload);
-    }
-  }, [isError, isSuccess]);
 
   return (
     <Container size={"xl"}>
@@ -38,7 +28,7 @@ export default function ActiveOrdersPage() {
               Cписок активные заказы
             </h1>
             <Text className="p-0 m-0">
-              ({data?.payload?.length || "0"} товар)
+              ({orders?.length || "0"} товар)
             </Text>
           </Flex>
           {orders?.length == 0 && (

@@ -17,3 +17,4 @@ export {
 export { useGetAllWidgetsQuery } from "./api/frontWidgetsApi";
 
 export { useOrderProductsMutation, useGetAllOrdersQuery } from './api/frontOrderApi'
+export { useGetAllCategoriesQuery } from './api/categoryApi'

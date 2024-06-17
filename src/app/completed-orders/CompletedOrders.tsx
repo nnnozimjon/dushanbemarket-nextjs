@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Icon, ProductCard } from "@/components";
+
+import React from "react";
+import { Icon } from "@/components";
 import {
   Container,
   Flex,
@@ -9,24 +10,11 @@ import {
   Text,
 } from "@mantine/core";
 import { ActiveOrderCard } from "@/components";
-import { useGetAllOrdersQuery } from "@/store";
-import Head from "next/head";
+import { CompletedOrdersController } from "@/controllers/CompletedOrdersController";
 
 export default function CompletedOrdersPage() {
-  const [completedOrders, setCompletedOrders] = useState([]);
-
-  const { data, error, isError, isSuccess, isLoading } =
-    useGetAllOrdersQuery("?type=completed");
-
-  useEffect(() => {
-    if (isError) {
-    }
-
-    if (isSuccess) {
-      setCompletedOrders(data?.payload);
-    }
-  }, [isError, isSuccess]);
-
+  const { completedOrders, isLoading } = CompletedOrdersController.getAll()
+  
   return (
     <Container size={"xl"}>
       <div className="my-4 md:py-10 flex lg:flex-row flex-col gap-5">

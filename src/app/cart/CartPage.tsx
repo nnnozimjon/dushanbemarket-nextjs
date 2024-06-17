@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import React from "react";
 import {
   Button,
   CheckIcon,
@@ -11,99 +12,23 @@ import {
   rem,
   Text,
 } from "@mantine/core";
-import { useDispatch, useSelector } from "react-redux";
 import { Counter, Icon } from "@/components";
-import {
-  addToCart,
-  removeFromCart,
-  removeProductById,
-  updateSelectedOptions,
-} from "@/store/slices";
-import { RootState } from "@/store/store";
 import { colors } from "@/utils/color";
-import { toast } from "react-toastify";
 import { LoginModal } from "@/modals";
-import { useDisclosure } from "@mantine/hooks";
-
-interface Color {
-  label: string;
-  value: string;
-  color: string;
-}
+import { CartController } from "@/controllers/CartController";
 
 export default function CartPage() {
-  const isLogedIn = useSelector(
-    (state: RootState) => state?.user?.isAuthenticated
-  );
-  const [opened, { close, open }] = useDisclosure();
-
-  const [productOptions, setProductOptions] = useState({
-    size: "",
-    color: "",
-  });
-
-  const dispatch = useDispatch();
-  const cart = useSelector((state: RootState) => state?.cart);
-
-  const increaseProductQty = (product: any) => {
-    dispatch(addToCart(product));
-  };
-
-  const decreaseProductQty = (product: any) => {
-    dispatch(removeFromCart(product?.id));
-  };
-
-  const removeProductFully = (product: any) => {
-    dispatch(removeProductById(product?.id));
-  };
-
-  const updateProductOptions = (productId: number, selectedOptions: any) => {
-    dispatch(updateSelectedOptions({ productId, selectedOptions }));
-  };
-
-  function groupProductsByCreatedBy(products: any) {
-    const groupedProducts: any = {};
-
-    products.forEach((product: any) => {
-      const { created_by, storeName, ...productData } = product;
-      if (!groupedProducts[created_by]) {
-        groupedProducts[created_by] = { created_by, storeName, products: [] };
-      }
-      groupedProducts[created_by].products.push(productData);
-    });
-
-    return Object.values(groupedProducts);
-  }
-
-  const sortedProducts = groupProductsByCreatedBy(cart?.products);
-
-  function filterColors(colors: Color[], colorList: string[]): Color[] {
-    return colors.filter((color) => colorList?.includes(color.value));
-  }
-
-  const completeOrder = () => {
-    if (!isLogedIn) {
-      return open();
-    }
-
-    const products = cart?.products;
-
-    for (let i = 0; i < products.length; i++) {
-      const product = products[i];
-      // Check if the product has colors
-      if (product.colors && !product.selectedOptions?.color) {
-        return toast.info("Пожалуйста, выберите цвет товара");
-      }
-
-      // Check if the product has sizes
-      if (product.sizes && !product.selectedOptions?.size) {
-        return toast.info("Пожалуйста, выберите размер товара");
-      }
-    }
-
-    window.location.replace("/order");
-  };
-
+  const {
+    cart,
+    completeOrder,
+    decreaseProductQty,
+    filterColors,
+    increaseProductQty,
+    opened,
+    sortedProducts,
+    updateProductOptions,
+  } = CartController();
+  
   return (
     <Container size={"xl"}>
       <div className="my-4 md:py-10 flex lg:flex-row flex-col gap-5">

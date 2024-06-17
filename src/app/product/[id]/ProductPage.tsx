@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import React from "react";
 import {
   Alert,
   Badge,
@@ -10,132 +11,35 @@ import {
   LoadingOverlay,
   Pill,
   Rating,
-  Select,
   SimpleGrid,
   Skeleton,
   Text,
 } from "@mantine/core";
-import { Counter, Icon, ProductCard } from "@/components";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "next/navigation";
-import {
-  useGetAllFrontProductsByPaginationQuery,
-  useGetProductByIdQuery,
-} from "@/store";
-import {
-  addToCart,
-  addToWishlist,
-  removeFromWishlist,
-  removeProductById,
-} from "@/store/slices";
-import { ObjectToParams } from "@/utils/objectToParams";
-import { colors } from "@/utils/color";
-import { toast } from "react-toastify";
-import { RootState } from "@/store/store";
-
-
-interface Color {
-  label: string;
-  value: string;
-  color: string;
-}
+import { Icon, ProductCard } from "@/components";
+import { ProductController } from "@/controllers/ProductController";
 
 export default function ProductPage() {
-  const [pageSize, setPageSize] = useState(20);
-  const [pageNumber] = useState(1);
-
-  const dispatch = useDispatch();
-  const cart: any[] = useSelector((state: RootState) => state?.cart?.products);
-  const wishlist: any[] = useSelector(
-    (state: RootState) => state?.wishlist?.products
-  );
-
-  const { id }: any = useParams();
-
-  const { data, isLoading, isError, isSuccess, error } =
-    useGetProductByIdQuery(id);
-
-  const product = data?.payload;
-  const images = product?.images?.split(",");
-  const sizes = product?.sizes ? product.sizes.split(",") : [];
-  const colorsList = product?.colors ? product.colors.split(",") : [];
-
-  const [selectedImage, setSelectedImage] = useState<string>("");
-
-  const currentDate = new Date();
-  const [creationDate, setCreationDate] = useState<Date>(currentDate);
-
-  const timeDifference = currentDate?.getTime() - creationDate?.getTime();
-  const threeDaysInMilliseconds = 3 * 24 * 60 * 60 * 1000;
-  const isWithinThreeDays = timeDifference <= threeDaysInMilliseconds;
-
-  useEffect(() => {
-    if (isError) {
-      toast.warning((error as any)?.data?.message);
-    }
-
-    if (isSuccess) {
-      setSelectedImage(images[0]);
-      setCreationDate(new Date(product?.created_at));
-    }
-  }, [isSuccess, isError]);
-
-  const isProductAddedToCart = cart?.find((product) => product?.id == id);
-  const isLiked = wishlist?.find((product: any) => product?.id == id);
-
-  const handleAddProductToCart = () => {
-    toast.success("Товар добавлен в корзину!");
-    dispatch(addToCart({ ...product, quantity: product.qty }));
-  };
-
-  const porudctIsInCartAlert = () => {
-    toast.success("Товар уже добавлен в корзину!");
-  };
-
-  const handleLike = () => {
-    dispatch(addToWishlist(product));
-  };
-
-  const handleDislike = () => {
-    dispatch(removeFromWishlist(product));
-  };
-
-  const handleLikeDislike = () => {
-    if (isLiked) {
-      return handleDislike();
-    }
-    handleLike();
-  };
-
-  // more product for showing
   const {
-    data: dataProducts,
-    isError: isErrorProducts,
-    isSuccess: isSuccessProducts,
-    isLoading: isLoadingProducts,
-    error: errorProducts,
-    refetch: refetchProducts,
-  } = useGetAllFrontProductsByPaginationQuery(
-    ObjectToParams({
-      pageSize,
-      pageNumber,
-      order: "rand",
-      category_id: product?.category_id || "",
-      sub_category_id: product?.sub_category_id || "",
-    })
-  );
-
-  function filterColors(colors: Color[], colorList: string[]): Color[] {
-    return colors.filter((color) => colorList?.includes(color.value));
-  }
-
-  const filteredColors: Color[] = filterColors(colors, colorsList);
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+    colorsList,
+    dataProducts,
+    filteredColors,
+    handleAddProductToCart,
+    handleLikeDislike,
+    images,
+    isLiked,
+    isLoading,
+    isLoadingProducts,
+    isProductAddedToCart,
+    isWithinThreeDays,
+    porudctIsInCartAlert,
+    product,
+    selectedImage,
+    setSelectedImage,
+    sizes,
+  } = ProductController();
 
   return (
     <Container size={"xl"} className="p-2 md:py-10 ">
-
       <Flex
         gap={"lg"}
         justify={"space-between"}

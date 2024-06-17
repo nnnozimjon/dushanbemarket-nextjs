@@ -1,73 +1,23 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container, Flex, Image, SimpleGrid, Text } from "@mantine/core";
 import { ProductCard } from "@/components";
-import {
-  useGetAllFrontProductsByPaginationQuery,
-  useGetAllWidgetsQuery,
-} from "@/store";
-import { ObjectToParams } from "@/utils/objectToParams";
 import Link from "next/link";
 import empty from "@/assets/empty-cart.png";
-import { useParams } from "next/navigation";
 import { Pagination } from "@/components";
+import { CategoryController } from "@/controllers/CategoryController";
 
 export default function CategoryPage() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-
-  const [pageSize, setPageSize] = useState(20);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  const category_name = urlSearchParams.get("name");
-  const params = useParams();
-
   const {
-    data: dataProducts,
-    isError: isErrorProducts,
-    isSuccess: isSuccessProducts,
-    isLoading: isLoadingProducts,
-    error: errorProducts,
-    refetch: refetchProducts,
-  } = useGetAllFrontProductsByPaginationQuery(
-    ObjectToParams({
-      pageSize,
-      pageNumber,
-      order: "desc",
-      category_id: params?.id,
-    })
-  );
-
-  const {
-    data: dataCt,
-    isError: isErrorCt,
-    isSuccess: isSuccessCt,
-    isLoading: isLoadingCt,
-    error: errorCt,
-  } = useGetAllWidgetsQuery(params?.id);
-
-  useEffect(() => {
-    if (isSuccessProducts) {
-      setProducts(dataProducts?.payload);
-    }
-  }, [isSuccessProducts, isErrorProducts, dataProducts?.payload]);
-
-  useEffect(() => {
-    if (isSuccessCt) {
-      setCategories(dataCt?.payload);
-    }
-  }, [isSuccessCt, isErrorCt, dataCt?.payload]);
-
-  useEffect(() => {
-    refetchProducts();
-  }, [pageNumber, pageSize, refetchProducts]);
-
-  const handleChangePage = (newPage: number) => {
-    setPageNumber(newPage);
-    window.scrollTo({ top: 600, behavior: "smooth" });
-  };
+    categories,
+    category_name,
+    dataProducts,
+    handleChangePage,
+    isLoadingCt,
+    isLoadingProducts,
+    products,
+  } = CategoryController();
 
   return (
     <Container size={"xl"}>

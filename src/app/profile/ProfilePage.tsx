@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import React from "react";
 import {
   Alert,
   Button,
@@ -12,51 +13,25 @@ import {
 } from "@mantine/core";
 import defaultProfileImage from "@/assets/default-avatar.jpg";
 import { Icon, ProductCard } from "@/components";
-import { useGetAllFrontProductsByPaginationQuery } from "@/store";
-import { ObjectToParams } from "@/utils/objectToParams";
 import { LocationModal, LoginModal } from "@/modals";
-import { useDisclosure } from "@mantine/hooks";
-import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices";
 import { formatPhoneNumber } from "@/utils";
-import { RootState } from "@/store/store";
+import { ProfileController } from "@/controllers/ProfileController";
 
 export default function ProfilePage() {
-  const dispatch = useDispatch();
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
-  );
-
-  const [modalOpened, { open: modalOpen, close: modalClose }] =
-    useDisclosure(false);
-  const user: any = useSelector((state: RootState) => state?.user?.user);
-  const userLocation = useSelector((state: RootState) => state?.location?.city);
-  const [opened, { close, open }] = useDisclosure();
-
-  const [products, setProducts] = useState([]);
-
-  const [pageSize, setPageSize] = useState(20);
-  const [pageNumber] = useState(1);
-
   const {
-    data: dataProducts,
-    isError: isErrorProducts,
-    isSuccess: isSuccessProducts,
-    isLoading: isLoadingProducts,
-    error: errorProducts,
-    refetch: refetchProducts,
-  } = useGetAllFrontProductsByPaginationQuery(
-    ObjectToParams({ pageSize, pageNumber, order: "rand" })
-  );
-
-  useEffect(() => {
-    if (isErrorProducts) {
-    }
-
-    if (isSuccessProducts) {
-      setProducts(dataProducts?.payload);
-    }
-  }, [isErrorProducts, isSuccessProducts]);
+    dispatch,
+    isAuthenticated,
+    isLoadingProducts,
+    modalClose,
+    modalOpen,
+    modalOpened,
+    open,
+    opened,
+    products,
+    user,
+    userLocation,
+  } = ProfileController();
 
   return (
     <Container size={"xl"}>
