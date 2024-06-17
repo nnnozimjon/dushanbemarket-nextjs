@@ -25,7 +25,7 @@ export async function generateMetadata(
     openGraph: {
       title: `${product?.payload?.name} - Купить онлайн на Душанбе Маркет`,
       description: `Покупайте ${product?.payload?.name} онлайн на Душанбе Маркет. Широкий выбор, отличные цены и удобная доставка. Не упустите возможность приобрести ${product?.payload?.name} прямо сейчас!`,
-      url: "https://dushanbemarket.com/product/" + id,
+      url: "https://dushanbemarket.tj/product/" + id,
       type: "website",
       images: [{ url: "./logo.png" }],
     },

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "Душанбе Маркет - Простые и Удобные Покупки",
     description:
       "Душанбе Маркет: Ваш лучший выбор для онлайн шопинга в Таджикистане. Широкий ассортимент товаров по выгодным ценам. Присоединяйтесь к нам сегодня!",
-    url: "https://dushanbemarket.com",
+    url: "https://dushanbemarket.tj",
     type: "website",
     images: [{ url: "./logo.png" }],
   },

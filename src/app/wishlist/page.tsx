@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: "Мой список желаемого на Душанбе Маркет",
     description:
       "Сохраняйте свои любимые товары на Душанбе Маркет в списке желаемого и легко найдите их в будущем. Управляйте своими покупками удобно и эффективно!",
-    url: "https://dushanbemarket.com/wishlist",
+    url: "https://dushanbemarket.tj/wishlist",
     type: "website",
     images: [{ url: "./logo.png" }],
   },

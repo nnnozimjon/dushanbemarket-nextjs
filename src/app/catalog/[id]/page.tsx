@@ -38,7 +38,7 @@ export default function CatalogPage() {
           content="Войдите в свой профиль на Душанбе Маркет, чтобы управлять вашими данными, настройками аккаунта и просматривать историю заказов. Удобство и безопасность в одном месте!"
         />
         <meta property="og:image" content="./logo.png" />
-        <meta property="og:url" content="https://dushanbemarket.com/profile" />
+        <meta property="og:url" content="https://dushanbemarket.tj/profile" />
         <meta property="og:type" content="website" />
       </Head> */}
       <div className="md:py-10">

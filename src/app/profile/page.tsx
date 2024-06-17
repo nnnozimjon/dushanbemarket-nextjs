@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: "Мой профиль на Душанбе Маркет",
     description:
       "Войдите в свой профиль на Душанбе Маркет, чтобы управлять вашими данными, настройками аккаунта и просматривать историю заказов. Удобство и безопасность в одном месте!",
-    url: "https://dushanbemarket.com/profile",
+    url: "https://dushanbemarket.tj/profile",
     type: "website",
     images: [{ url: "./logo.png" }],
   },
