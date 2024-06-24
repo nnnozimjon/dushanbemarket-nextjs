@@ -69,7 +69,7 @@ export default function ProductPage() {
                   key={index}
                   src={image}
                   alt="Preview"
-                  className={`w-full mb-2 rounded-lg cursor-pointer ${image === selectedImage && "border-3 p-1 border-green border-solid"}`}
+                  className={`mb-2 h-[80px] object-contain w-[80px] rounded-lg cursor-pointer ${image === selectedImage && "border-3 p-1 border-green border-solid"}`}
                   onClick={() => setSelectedImage(image)}
                 />
               ))}
