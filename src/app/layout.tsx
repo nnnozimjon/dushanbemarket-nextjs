@@ -23,7 +23,7 @@ export default function RootLayout({
         <Provider store={store}>
           <MantineProvider>
             <AppHeader />
-            <div className="pt-[140px] md:pt-[100px]">{children}</div>
+            <div className="pt-[140px] md:pt-[120px]">{children}</div>
             <AppFooter />
             <ToastContainer
               position="top-right"

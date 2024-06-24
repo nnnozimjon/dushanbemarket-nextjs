@@ -18,6 +18,7 @@ import classes from "./styles.module.css";
 import { AppLogo, Icon } from "..";
 import Link from "next/link";
 import { HeaderController, ICategory } from "@/controllers/HeaderController";
+import { LocationModal } from "@/modals";
 
 export function AppHeader() {
   const {
@@ -34,12 +35,34 @@ export function AppHeader() {
     activeLink,
     setActiveLink,
     allCategories,
+    userLocation,
+    closeLocationModal,
+    isOpenedLocationModal,
+    openLocationModal,
   } = HeaderController();
 
   return (
     <header
       className={`${classes.header} shadow-md pb-2 md:pb-0 fixed z-50 w-full`}
     >
+      <div
+        className={`${isScrolled && "hidden transition-all duration-300"} bg-white p-2 w-full`}
+      >
+        <Container
+          size={"md"}
+          className="w-full flex items-center justify-between"
+        >
+          <a
+            onClick={openLocationModal}
+            className="text-[12px] cursor-pointer select-none font-semibold leading-[16px] text-green"
+          >
+            {userLocation ? userLocation : "Душанбе"}. Уточнить адрес
+          </a>
+          <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSc83f2KZsyulDTaLdZxO3BtQ0XUvbhyojduJCxxVMvxrVkn9Q/viewform?usp=sf_link" className="text-[14px] underline font-normal leading-[16px] text-[rgba(0,26,52,0.6)]">
+            Стать продавцом
+          </a>
+        </Container>
+      </div>
       <Container size="md">
         <div className={classes.inner}>
           <AppLogo />
@@ -79,7 +102,7 @@ export function AppHeader() {
               )}
             </Menu.Dropdown>
           </Menu>
-          <Flex gap={"md"}>
+          <Flex gap={"md"} visibleFrom="md">
             <Link href={"/wishlist"} className="no-underline text-[#01B763]">
               <Indicator
                 inline
@@ -278,6 +301,11 @@ export function AppHeader() {
           </Container>
         </Flex>
       )}
+
+      <LocationModal
+        onClose={closeLocationModal}
+        opened={isOpenedLocationModal}
+      />
     </header>
   );
 }

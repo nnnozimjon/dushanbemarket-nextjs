@@ -2,7 +2,7 @@
 
 import { setCity } from '@/store/slices';
 import { RootState } from '@/store/store';
-import { Grid, Modal, Text } from '@mantine/core';
+import { Button, Grid, Modal, Text } from '@mantine/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -42,9 +42,9 @@ export const LocationModal: React.FC<Props> = ({ onClose, opened }) => {
         >
             <Grid>
                 {cities?.map((city, key) => <Grid.Col span={6} key={key}>
-                    <div onClick={() => changeLocation(city)} className={`cursor-pointer ${city == userLocation ? 'bg-green text-[#fff] font-bold' : 'bg-gray-light'} rounded-md text-center w-full h-full p-[10px]`}>
-                        <Text className='select-none'>{city}</Text>
-                    </div>
+                    <Button className='w-full p-[10px]' color='green' onClick={() => changeLocation(city)} variant={city == userLocation ? '' : 'outline'}>
+                        {city}
+                    </Button>
                 </Grid.Col>)}
             </Grid>
         </Modal>

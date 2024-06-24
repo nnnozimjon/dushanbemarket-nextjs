@@ -4,6 +4,7 @@ import { useGetAllCategoriesQuery, useProductSearchMutation } from "@/store";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useDisclosure } from "@mantine/hooks";
 
 export interface ICategory {
   name: string;
@@ -68,9 +69,12 @@ export const HeaderController = () => {
 
   const [search, setSearch] = useState<string>("");
 
+  const [isOpenedLocationModal, { close: closeLocationModal, open: openLocationModal }] = useDisclosure();
+
   const user = useSelector((state: RootState) => state?.user);
   const cart = useSelector((state: RootState) => state?.cart);
   const wishlist = useSelector((state: RootState) => state?.wishlist);
+  const userLocation = useSelector((state: RootState) => state?.location?.city);
 
   const [findProduct, { data, isSuccess, isLoading, isError, error }] =
     useProductSearchMutation();
@@ -83,27 +87,27 @@ export const HeaderController = () => {
     error: errorAllCategories,
   } = useGetAllCategoriesQuery({});
 
-  const useDebouncedEffect = (
-    callback: () => void,
-    delay: number,
-    dependencies: any[]
-  ): void => {
-    useEffect(() => {
-      const handler = setTimeout(callback, delay);
+  // const useDebouncedEffect = (
+  //   callback: () => void,
+  //   delay: number,
+  //   dependencies: any[]
+  // ): void => {
+  //   useEffect(() => {
+  //     const handler = setTimeout(callback, delay);
 
-      return () => {
-        clearTimeout(handler);
-      };
-    }, [callback, delay]);
-  };
+  //     return () => {
+  //       clearTimeout(handler);
+  //     };
+  //   }, [callback, delay]);
+  // };
 
-  useDebouncedEffect(
-    () => {
-      findProduct(search);
-    },
-    1000,
-    [search]
-  );
+  // useDebouncedEffect(
+  //   () => {
+  //     findProduct(search);
+  //   },
+  //   1000,
+  //   [search]
+  // );
 
   useEffect(() => {
     if (isSuccess) {
@@ -162,6 +166,10 @@ export const HeaderController = () => {
     isDropdownVisible,
     allCategories,
     activeLink,
-    setActiveLink
+    setActiveLink,
+    userLocation,
+    isOpenedLocationModal,
+    closeLocationModal,
+    openLocationModal
   };
 };
